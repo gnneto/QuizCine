@@ -1,0 +1,11 @@
+<form method="POST" action="{% url 'resultado_quiz' %}">
+    {% csrf_token %}
+    {% for pergunta in perguntas %}
+        <h2>{{ pergunta.texto }}</h2>
+        {% for resposta in pergunta.resposta_set.all %}
+            <input type="radio" name="{{ pergunta.id }}" value="{{ resposta.id }}">
+            <label>{{ resposta.texto }}</label><br>
+        {% endfor %}
+    {% endfor %}
+    <input type="submit" value="Enviar">
+</form>

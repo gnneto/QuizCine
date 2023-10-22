@@ -9,3 +9,5 @@ class CustomLoginForm(forms.Form):
         widget=forms.PasswordInput(attrs={'class': 'form-control'}),
         label='Senha'
     )
+
+

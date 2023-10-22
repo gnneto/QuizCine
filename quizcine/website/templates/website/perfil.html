@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1> Ola, {{ nome_usuario }}</h1>
+
+<a href="{% url 'quiz' %}">Quiz</a>
+
+{% endblock %}
