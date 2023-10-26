@@ -29,6 +29,20 @@
                     <a class="nav-link" href="{% url 'sobre' %}">Sobre</a>
                 </li>
             </ul>
+            {% if request.user.is_authenticated %}
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}">Sair</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'perfil' %}">Perfil</a>
+                    </li>
+                </ul>
+                <label style="color: aliceblue;" >{{ nome_usuario }}</label>
+                
+                {% endif %}
         </div>
     </nav>
     <main>

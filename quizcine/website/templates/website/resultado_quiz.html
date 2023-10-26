@@ -1,5 +1,24 @@
-<h1>Filmes Recomendados</h1>
-{% for filme in filmes %}
-    <h2>{{ filme.titulo }}</h2>
-    <p>{{ filme.descricao }}</p>
-{% endfor %}
+
+{% load static %}
+    <link rel="stylesheet" href="{% static 'website/css/criadores.css' %}">
+    <div class="container">
+    {% for filme in filmes %}
+    <div class="cartao">
+    <div class="interno">
+        <div class="frente">
+        <img src="{{ filme.imagem_url }}" alt="{{ filme.titulo }}">
+        </div>
+        <div class="costas">
+        <p>
+            {{ filme.descricao }}
+        </p>
+        </div>
+    </div>
+    <div class="botoes">
+        <a href="{{ filme.link_hbo }}" target="_blank"><button>HBO</button></a>
+        <br><a href="{{ filme.link_primevideo }}" target="_blank"><button>PrimeVideo</button></a>
+        <br><a href="{{ filme.link_appletv }}" target="_blank"><button>Apple TV</button></a>
+    </div>
+    </div>
+    {% endfor %}
+    </div>

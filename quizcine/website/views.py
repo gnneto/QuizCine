@@ -2,14 +2,11 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.db.utils import IntegrityError
 from django.contrib import messages
-from .models import Filme, Pergunta, Resposta
-from .forms import CustomLoginForm
-from collections import Counter
-from django.db.models import Sum
+from .models import Filme, Pergunta, Resposta, UserProfile
+from .forms import CustomLoginForm, UserProfileForm
 
 
 
@@ -33,12 +30,9 @@ def sobre(request):
 
 @login_required(login_url='login')
 def perfil(request):
-    if request.user.is_authenticated:
-        nome_usuario = request.user.first_name
-    else:
-        nome_usuario = "Usuário Anônimo"
-
-    return render(request, 'website/perfil.html', {'nome_usuario': nome_usuario})
+    user = request.user
+    userprofile = UserProfile.objects.get(user=user)
+    return render(request, 'website/perfil.html', {'user': user, 'userprofile': userprofile})
 
 
 def login_view(request):
@@ -66,14 +60,24 @@ def cadastrar_usuario(request):
         sobrenome = request.POST['sNome']
         email = request.POST['email']
         senha = request.POST['senha']
-        nasciment = request.POST['nasc']
-        celular = request.POST['cell']
+        nascimento = request.POST['nasc']
+        cell = request.POST['cell']
+        nosConheceu = request.POST.get('nosConheceu', '')
+        genero = request.POST['genero']
 
         try:
             usuario = User.objects.create_user(username=email, email=email, password=senha)
             usuario.first_name = nome
             usuario.last_name = sobrenome
             usuario.save()
+
+            UserProfile.objects.create(
+                user=usuario,
+                nascimento=nascimento,
+                cell=cell,
+                nosConheceu=nosConheceu,
+                genero=genero
+            )
 
             messages.success(request, 'Cadastro realizado.')
             return redirect('login')
@@ -83,6 +87,8 @@ def cadastrar_usuario(request):
             messages.error(request, 'Erro no cadastro: ' + str(e))
 
     return render(request, 'website/cadastro.html')
+
+
 
 @login_required
 def quiz(request):
@@ -101,3 +107,18 @@ def resultado_quiz(request):
         filmes_recomendados = filmes_recomendados.distinct()
         
         return render(request, 'website/resultado_quiz.html', {'filmes': filmes_recomendados})
+    
+
+def editar_perfil(request):
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, request.FILES, instance=request.user.userprofile)
+        if form.is_valid():
+            form.save()
+            return redirect('perfil')
+    else:
+        if hasattr(request.user, 'userprofile'):
+            form = UserProfileForm(instance=request.user.userprofile)
+        else:
+            form = UserProfileForm()
+
+    return render(request, 'website/editar_perfil.html', {'form': form})

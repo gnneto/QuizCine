@@ -1,4 +1,5 @@
 from django import forms
+from .models import UserProfile
 
 class CustomLoginForm(forms.Form):
     email = forms.EmailField(
@@ -9,5 +10,10 @@ class CustomLoginForm(forms.Form):
         widget=forms.PasswordInput(attrs={'class': 'form-control'}),
         label='Senha'
     )
+    
 
 
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['nascimento', 'cell', 'nosConheceu', 'genero', 'foto']

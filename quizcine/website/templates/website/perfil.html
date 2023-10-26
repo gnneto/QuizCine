@@ -1,9 +1,44 @@
 {% extends 'base.html' %}
-
 {% block content %}
 
-<h1> Ola, {{ nome_usuario }}</h1>
+<div class="container mb-5">
+    <h1 class="mt-2">Perfil</h1>
 
-<a href="{% url 'quiz' %}">Quiz</a>
+    <div class="perfil">
+        <div class="form">
+            <div class="form-group">
+                <label>Nome</label>
+                <p>{{ user.first_name }}</p>
+            </div>
+            <div class="form-group">
+                <label>Sobrenome</label>
+                <p>{{ user.last_name }}</p>
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <p>{{ user.email }}</p>
+            </div>
+            <div class="form-group">
+                <label>Data de nascimento</label>
+                <p>{{ userprofile.nascimento }}</p>
+            </div>
+            <div class="form-group">
+                <label>Celular</label>
+                <p>{{ userprofile.cell }}</p>
+            </div>
+            <div class="form-group">
+                <label>Como nos conheceu</label>
+                <p>{{ userprofile.nosConheceu }}</p>
+            </div>
+            <div class="form-group">
+                <label>Gênero</label>
+                <p>{{ userprofile.genero }}</p>
+            </div>
+        </div>
+    </div>
+
+    <a href="{% url 'editar_perfil' %}" class="btn btn-dark">Editar Perfil</a>
+
+</div>
 
 {% endblock %}

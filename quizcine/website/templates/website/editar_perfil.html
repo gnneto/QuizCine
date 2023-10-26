@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container mb-5">
+    <h1 class="mt-2">Editar Perfil</h1>
+
+    <div class="perfil">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="{{ form.nascimento.id_for_label }}">Data de nascimento:</label>
+                {{ form.nascimento }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.cell.id_for_label }}">Celular:</label>
+                {{ form.cell }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.nosConheceu.id_for_label }}">Como nos conheceu:</label>
+                {{ form.nosConheceu }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.genero.id_for_label }}">Gênero:</label>
+                {{ form.genero }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.foto.id_for_label }}">Foto de perfil:</label>
+                {{ form.foto }}
+            </div>
+            <button type="submit" class="btn btn-dark">Salvar</button>
+        </form>
+    </div>
+    <a href="{% url 'perfil' %}" class="btn btn-dark">Voltar ao Perfil</a>
+
+</div>
+
+{% endblock %}
