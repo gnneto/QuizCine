@@ -1,24 +1,63 @@
-
 {% load static %}
-    <link rel="stylesheet" href="{% static 'website/css/criadores.css' %}">
-    <div class="container">
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <title>quiz teste cartao</title>
+  <link rel="stylesheet" href="{% static 'website/css/resultado_quiz.css' %}">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+</head>
+<body>
+  <div class="container d-flex flex-wrap">
     {% for filme in filmes %}
-    <div class="cartao">
-    <div class="interno">
-        <div class="frente">
-        <img src="{{ filme.imagem_url }}" alt="{{ filme.titulo }}">
+      <div class="cartao m-2">
+        <div class="interno card">
+          <div class="frente card-body text-center">
+            <h5 class="card-title">{{ filme.titulo }}</h5>
+            <img src="{{ filme.imagem_url }}" alt="{{ filme.titulo }}" class="img-fluid">
+          </div>
+          <div class="costas card-body text-center">
+            <p class="card-text">{{ filme.descricao|truncatechars:100 }}</p>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#filmeModal{{ forloop.counter }}">
+              Mostrar mais
+            </button>
+          </div>
         </div>
-        <div class="costas">
-        <p>
-            {{ filme.descricao }}
-        </p>
+        <div class="botoes d-none">
+          <a href="" target="_blank" class="btn btn-primary btn-block">HBO</a>
+          <a href="" target="_blank" class="btn btn-primary btn-block">PrimeVideo</a>
+          <a href="" target="_blank" class="btn btn-primary btn-block">Apple TV</a>
         </div>
-    </div>
-    <div class="botoes">
-        <a href="{{ filme.link_hbo }}" target="_blank"><button>HBO</button></a>
-        <br><a href="{{ filme.link_primevideo }}" target="_blank"><button>PrimeVideo</button></a>
-        <br><a href="{{ filme.link_appletv }}" target="_blank"><button>Apple TV</button></a>
-    </div>
-    </div>
+      </div>
+  <!-- modal -->
+      <div class="modal fade" id="filmeModal{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="filmeModalLabel{{ forloop.counter }}" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="filmeModalLabel{{ forloop.counter }}">{{ filme.titulo }}</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>{{ filme.descricao_completa }}</p>
+              <p><strong>Diretor:</strong> {{ filme.diretor }}</p>
+              <p><strong>Ano de lançamento:</strong> {{ filme.data_lancamento }}</p>
+              <p><strong>Gênero:</strong> {{ filme.generos }}</p>
+              <p><strong>Descrição:</strong>  {{ filme.descricao }}</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
     {% endfor %}
-    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  <script src="{% static 'website/js/resultado_quiz.js' %}"></script>
+
+</body>
+</html>

@@ -1,0 +1,64 @@
+.cartao {
+    width: 200px;
+    height: 300px;
+    perspective: 1000px;
+}
+
+.interno {
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.5s;
+}
+
+.cartao.virado .interno {
+    transform: rotateY(180deg);
+}
+
+.frente,
+.costas {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    backface-visibility: hidden;
+}
+
+.frente .filmeNome {
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.costas {
+    background-color: #b0b0b0;
+    transform: rotateY(180deg);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.costas p {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+
+}
+
+.frente img {
+    max-width: 100%;
+}
+
+.botoes a {
+    width: 80%;
+    margin: 5px auto;
+}
+.cartao.virado .botoes {
+    display: block !important;
+}
