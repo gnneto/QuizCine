@@ -11,9 +11,9 @@ class Filme(models.Model):
     data_lancamento = models.DateField()
     descricao = models.TextField()
     imagem_url = models.URLField()
-    link_hbo = models.URLField()
-    link_primevideo = models.URLField()
-    link_appletv = models.URLField()
+    link_hbo = models.URLField(blank=True)
+    link_primevideo = models.URLField(blank=True)
+    link_appletv = models.URLField(blank=True)
 
 
     def __str__(self):

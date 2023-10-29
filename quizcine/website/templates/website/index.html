@@ -6,15 +6,15 @@
         <h1>Faça o nosso Quiz!</h1>
     </div>
     <div class="legenda">
-        <p>Deixe suas emoções guiarem sua escolha de filme hoje! Nosso quiz diário te conecta com o filme perfeito para seu estado de espírito. 🎥😊😢 #EscolhaEmocional</p>
+        <p>Deixe suas emoções guiarem sua escolha de filme hoje! Nosso quiz diário te conecta com o filme perfeito para seu estado de espírito. 🎥😊😢 <strong>#EscolhaEmocional</strong></p>
     </div>
     <div class="botoes">
-        <form action="{% url 'cadastro' %}" class="d-inline">
-            <button class="btn btn-dark">Cadastro</button>
-        </form>
-        <form action="{% url 'login' %}" class="d-inline">
-            <button class="btn btn-dark">Login</button>
-        </form>
+        {% if user.is_authenticated %}
+            <a href="{% url 'quiz' %}" class="btn btn-dark">QUIZ</a>
+        {% else %}
+            <a href="{% url 'cadastro' %}" class="btn btn-dark">Cadastro</a>
+            <a href="{% url 'login' %}" class="btn btn-dark">Login</a>
+        {% endif %}
     </div>        
 </div>
 

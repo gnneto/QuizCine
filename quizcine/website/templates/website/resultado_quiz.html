@@ -22,38 +22,48 @@
             </button>
           </div>
         </div>
-        <div class="botoes d-none">
-          <a href="" target="_blank" class="btn btn-primary btn-block">HBO</a>
-          <a href="" target="_blank" class="btn btn-primary btn-block">PrimeVideo</a>
-          <a href="" target="_blank" class="btn btn-primary btn-block">Apple TV</a>
-        </div>
-      </div>
-  <!-- modal -->
-      <div class="modal fade" id="filmeModal{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="filmeModalLabel{{ forloop.counter }}" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="filmeModalLabel{{ forloop.counter }}">{{ filme.titulo }}</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">×</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <p>{{ filme.descricao_completa }}</p>
-              <p><strong>Diretor:</strong> {{ filme.diretor }}</p>
-              <p><strong>Ano de lançamento:</strong> {{ filme.data_lancamento }}</p>
-              <p><strong>Gênero:</strong> {{ filme.generos }}</p>
-              <p><strong>Descrição:</strong>  {{ filme.descricao }}</p>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-            </div>
-          </div>
+        <div class="botoes d-none"> <!--tenho que arrumar isso aqui-->
         </div>
       </div>
 
-    {% endfor %}
+<!-- inicio modal-->
+<div class="modal fade" id="filmeModal{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="filmeModalLabel{{ forloop.counter }}" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="filmeModalLabel{{ forloop.counter }}">{{ filme.titulo }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>{{ filme.descricao_completa }}</p>
+        <p><strong>Diretor:</strong> {{ filme.diretor }}</p>
+        <p><strong>Ano de lançamento:</strong> {{ filme.data_lancamento }}</p>
+        <p><strong>Gênero:</strong> {{ filme.generos }}</p>
+        <p><strong>Descrição:</strong>  {{ filme.descricao }}</p>
+          
+          <!-- vai verificar se existe um link no atributo -->
+          {% if filme.link_hbo %}
+            <a href="{{ filme.link_hbo }}" target="_blank" class="btn btn-primary btn-block">HBO</a>
+          {% endif %}
+          {% if filme.link_primevideo %}
+            <a href="{{ filme.link_primevideo }}" target="_blank" class="btn btn-primary btn-block">PrimeVideo</a>
+          {% endif %}
+          {% if filme.link_appletv %}
+            <a href="{{ filme.link_appletv }}" target="_blank" class="btn btn-primary btn-block">Apple TV</a>
+          {% endif %}
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+      </div>
+    </div>
   </div>
+</div>
+
+    {% endfor %}
+</div>
 
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>

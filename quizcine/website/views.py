@@ -11,7 +11,10 @@ from .forms import CustomLoginForm, UserProfileForm
 
 
 def cadastro(request):
-    return render(request, 'website/cadastro.html')
+    if request.user.is_authenticated:
+        return redirect('index')
+    else:
+        return render(request, 'website/cadastro.html')
 
 
 def contato(request):
@@ -36,20 +39,23 @@ def perfil(request):
 
 
 def login_view(request):
-    if request.method == 'POST':
-        form = CustomLoginForm(request.POST)
-        if form.is_valid():
-            email = form.cleaned_data['email']
-            password = form.cleaned_data['password']
-            user = authenticate(request, username=email, password=password)
-            if user is not None:
-                login(request, user)
-                return redirect('perfil')
-            else:
-                form.add_error(None, 'Credenciais inválidas. Tente novamente.')
+    if request.user.is_authenticated:
+        return redirect('index')
     else:
-        form = CustomLoginForm()
-    return render(request, 'website/login.html', {'form': form})
+        if request.method == 'POST':
+            form = CustomLoginForm(request.POST)
+            if form.is_valid():
+                email = form.cleaned_data['email']
+                password = form.cleaned_data['password']
+                user = authenticate(request, username=email, password=password)
+                if user is not None:
+                    login(request, user)
+                    return redirect('perfil')
+                else:
+                    form.add_error(None, 'Credenciais inválidas. Tente novamente.')
+        else:
+            form = CustomLoginForm()
+        return render(request, 'website/login.html', {'form': form})
 
 
 
