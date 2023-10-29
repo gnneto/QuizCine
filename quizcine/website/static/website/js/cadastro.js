@@ -5,6 +5,7 @@ document.querySelector('form').addEventListener('submit', function(event) {
     var senha = document.querySelector('#senha').value;
     var confsenha = document.querySelector('#confsenha').value;
     var email = $('#email').val();
+    var cell = document.querySelector('#cell').value;
 
     var regexEmail = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
 
@@ -17,5 +18,22 @@ document.querySelector('form').addEventListener('submit', function(event) {
     } else if (!regexEmail.test(email)) {
       alert('Por favor, insira um email válido!');
       event.preventDefault();
-    }
+    } else if (email == senha){
+      alert('Sua senha não pode ser seu email');
+      event.preventDefault();
+    } 
+
+
 });
+const formatoCell = (event) => {
+  let input = event.target
+  input.value = mascaraCell(input.value)
+}
+
+const mascaraCell = (value) => {
+  if (!value) return ""
+  value = value.replace(/\D/g,'')
+  value = value.replace(/(\d{2})(\d)/,"($1) $2")
+  value = value.replace(/(\d)(\d{4})$/,"$1-$2")
+  return value
+}

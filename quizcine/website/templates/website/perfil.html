@@ -37,10 +37,12 @@
         </div>
     </div>
 
-    <a href="{% url 'editar_perfil' %}" class="btn btn-dark">Editar Perfil</a>
-    <a href="{% url 'quiz' %}" class="btn btn-dark">QUIZ</a>
+        {% if user == request.user %}
+            <a href="{% url 'editar_perfil' %}" class="btn btn-dark">Editar Perfil</a>
+        {% endif %}
+        <a href="{% url 'quiz' %}" class="btn btn-dark">QUIZ</a>
 
+        </div>
 
-</div>
+        {% endblock %}
 
-{% endblock %}

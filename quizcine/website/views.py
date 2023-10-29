@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
@@ -101,6 +101,7 @@ def quiz(request):
     perguntas = Pergunta.objects.all()
     return render(request, 'website/quiz.html', {'perguntas': perguntas})
     
+
 def resultado_quiz(request):
     if request.method == 'POST':
         respostas_selecionadas = list(request.POST.values())[1:]
@@ -128,3 +129,31 @@ def editar_perfil(request):
             form = UserProfileForm()
 
     return render(request, 'website/editar_perfil.html', {'form': form})
+
+def profile(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+    profile = UserProfile.objects.get(user=user)
+    
+    nome = user.first_name
+    sobrenome = user.last_name
+    email = user.email
+    nascimento = profile.nascimento
+    cell = profile.cell
+    nosConheceu = profile.nosConheceu
+    genero = profile.genero
+    foto = profile.foto.url if profile.foto else None
+
+    context = {
+        'user': user,
+        'userprofile': profile,
+        'nome': nome,
+        'sobrenome': sobrenome,
+        'email': email,
+        'nascimento': nascimento,
+        'cell': cell,
+        'nosConheceu': nosConheceu,
+        'genero': genero,
+        'foto': foto,
+    }
+
+    return render(request, 'website/perfil.html', context)

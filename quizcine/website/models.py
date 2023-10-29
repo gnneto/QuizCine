@@ -46,3 +46,12 @@ class UserProfile(models.Model):
  
     def __str__(self):
         return self.user.username
+    
+
+class RespostaUsuario(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    pergunta = models.ForeignKey(Pergunta, on_delete=models.CASCADE)
+    resposta = models.ForeignKey(Resposta, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.user.username} | {self.pergunta.texto} | {self.resposta.texto}'
