@@ -5,7 +5,7 @@ document.querySelector('form').addEventListener('submit', function(event) {
     var senha = document.querySelector('#senha').value;
     var confsenha = document.querySelector('#confsenha').value;
     var email = $('#email').val();
-    var cell = document.querySelector('#cell').value;
+    var cell = document.querySelector('#cell').value.replace(/\D/g,'');
 
     var regexEmail = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
 
@@ -21,8 +21,10 @@ document.querySelector('form').addEventListener('submit', function(event) {
     } else if (email == senha){
       alert('Sua senha não pode ser seu email');
       event.preventDefault();
-    } 
-
+    } else if (cell.length < 11){
+      alert('Informe um celular valido.');
+      event.preventDefault();
+    }
 
 });
 const formatoCell = (event) => {

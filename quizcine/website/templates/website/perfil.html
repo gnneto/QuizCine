@@ -14,18 +14,24 @@
                 <label>Sobrenome</label>
                 <p>{{ user.last_name }}</p>
             </div>
-            <div class="form-group">
-                <label>Email</label>
-                <p>{{ user.email }}</p>
-            </div>
+
+            {% if user == request.user %}
+                <div class="form-group">
+                    <label>Email</label>
+                    <p>{{ user.email }}</p>
+                </div>
+            
+                <div class="form-group">
+                    <label>Celular</label>
+                    <p>{{ userprofile.cell }}</p>
+                </div>
+            {% endif %}
+
             <div class="form-group">
                 <label>Data de nascimento</label>
                 <p>{{ userprofile.nascimento }}</p>
             </div>
-            <div class="form-group">
-                <label>Celular</label>
-                <p>{{ userprofile.cell }}</p>
-            </div>
+            
             <div class="form-group">
                 <label>Como nos conheceu</label>
                 <p>{{ userprofile.nosConheceu }}</p>
@@ -34,15 +40,17 @@
                 <label>Gênero</label>
                 <p>{{ userprofile.genero }}</p>
             </div>
+            {% if userprofile.foto %}
+                <img src="{{ userprofile.foto.url }}" alt="Foto do perfil">
+            {% endif %}
         </div>
     </div>
 
         {% if user == request.user %}
             <a href="{% url 'editar_perfil' %}" class="btn btn-dark">Editar Perfil</a>
+            <a href="{% url 'quiz' %}" class="btn btn-dark">QUIZ</a>
         {% endif %}
-        <a href="{% url 'quiz' %}" class="btn btn-dark">QUIZ</a>
 
         </div>
 
         {% endblock %}
-
