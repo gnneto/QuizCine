@@ -43,6 +43,7 @@ class UserProfile(models.Model):
     nosConheceu = models.CharField(max_length=255)
     genero = models.CharField(max_length=255)
     foto = models.ImageField(upload_to='profile_pics', blank=True)
+    bioUsuario = models.TextField(max_length=500, blank=True)
  
     def __str__(self):
         return self.user.username

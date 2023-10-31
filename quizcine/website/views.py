@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.utils import IntegrityError
 from django.contrib import messages
 from .models import Filme, Pergunta, Resposta, UserProfile
-from .forms import CustomLoginForm, UserProfileForm
+from .forms import CustomLoginForm, UserProfileForm, UserForm
 
 
 
@@ -96,7 +96,7 @@ def cadastrar_usuario(request):
 
 
 
-@login_required
+@login_required(login_url='login')
 def quiz(request):
     perguntas = Pergunta.objects.all()
     return render(request, 'website/quiz.html', {'perguntas': perguntas})
@@ -115,20 +115,25 @@ def resultado_quiz(request):
         
         return render(request, 'website/resultado_quiz.html', {'filmes': filmes_recomendados})
     
-
+@login_required(login_url='login')
 def editar_perfil(request):
     if request.method == 'POST':
-        form = UserProfileForm(request.POST, request.FILES, instance=request.user.userprofile)
-        if form.is_valid():
-            form.save()
+        user_form = UserForm(request.POST, instance=request.user)
+        profile_form = UserProfileForm(request.POST, request.FILES, instance=request.user.userprofile)
+        if user_form.is_valid() and profile_form.is_valid():
+            user = user_form.save(commit=False)
+            if user_form.cleaned_data['password']:
+                user.set_password(user_form.cleaned_data['password'])
+            user.save()
+            profile_form.save()
             return redirect('perfil')
     else:
-        if hasattr(request.user, 'userprofile'):
-            form = UserProfileForm(instance=request.user.userprofile)
-        else:
-            form = UserProfileForm()
+        user_form = UserForm(instance=request.user)
+        profile_form = UserProfileForm(instance=request.user.userprofile)
 
-    return render(request, 'website/editar_perfil.html', {'form': form})
+    return render(request, 'website/editar_perfil.html', {'user_form': user_form, 'profile_form': profile_form})
+
+
 
 def profile(request, user_id):
     user = get_object_or_404(User, id=user_id)
