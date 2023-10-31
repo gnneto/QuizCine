@@ -64,7 +64,7 @@ def cadastrar_usuario(request):
     if request.method == 'POST':
         nome = request.POST['pNome']
         sobrenome = request.POST['sNome']
-        email = request.POST['email']
+        email = request.POST['email'].lower()
         senha = request.POST['senha']
         nascimento = request.POST['nasc']
         cell = request.POST['cell']

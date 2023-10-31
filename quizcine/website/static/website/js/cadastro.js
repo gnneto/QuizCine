@@ -4,7 +4,7 @@ document.head.appendChild(script);
 document.querySelector('form').addEventListener('submit', function(event) {
     var senha = document.querySelector('#senha').value;
     var confsenha = document.querySelector('#confsenha').value;
-    var email = $('#email').val();
+    var email = $('#email').val().toLowerCase();
     var cell = document.querySelector('#cell').value.replace(/\D/g,'');
 
     var regexEmail = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
