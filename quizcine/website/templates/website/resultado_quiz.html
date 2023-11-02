@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <title>quiz teste cartao</title>
+  <title>QuizCine</title>
   <link rel="stylesheet" href="{% static 'website/css/resultado_quiz.css' %}">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 </head>
@@ -44,15 +44,11 @@
         <p><strong>Descrição:</strong>  {{ filme.descricao }}</p>
           
           <!-- vai verificar se existe um link no atributo -->
-          {% if filme.link_hbo %}
-            <a href="{{ filme.link_hbo }}" target="_blank" class="btn btn-primary btn-block">HBO</a>
-          {% endif %}
-          {% if filme.link_primevideo %}
-            <a href="{{ filme.link_primevideo }}" target="_blank" class="btn btn-primary btn-block">PrimeVideo</a>
-          {% endif %}
-          {% if filme.link_appletv %}
-            <a href="{{ filme.link_appletv }}" target="_blank" class="btn btn-primary btn-block">Apple TV</a>
-          {% endif %}
+          {% for nome, url in filme.links.items %}
+            {% if url %}
+              <a href="{{ url }}" target="_blank" class="btn btn-primary btn-block">{{ nome }}</a>
+            {% endif %}
+          {% endfor %}
         
       </div>
       <div class="modal-footer">

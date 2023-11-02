@@ -19,7 +19,9 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(next_page='index'), name='logout'),
     path('editar_perfil/', views.editar_perfil, name='editar_perfil'),
     path('perfil/<int:user_id>/', views.profile, name='profile'),
+    path('filmes_recomendados/', views.filmes_recomendados, name='filmes_recomendados'),
+    
+]
 
-    ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

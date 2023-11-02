@@ -11,6 +11,7 @@
     <div class="botoes">
         {% if user.is_authenticated %}
             <a href="{% url 'quiz' %}" class="btn btn-dark">QUIZ</a>
+            <a href="{% url 'filmes_recomendados'%}" class="btn btn-dark">Meus filmes</a>
         {% else %}
             <a href="{% url 'cadastro' %}" class="btn btn-dark">Cadastro</a>
             <a href="{% url 'login' %}" class="btn btn-dark">Login</a>

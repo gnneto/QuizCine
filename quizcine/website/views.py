@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.db.utils import IntegrityError
 from django.contrib import messages
-from .models import Filme, Pergunta, Resposta, UserProfile
+from .models import Filme, Pergunta, Resposta, UserProfile, FilmeRecomendado
 from .forms import CustomLoginForm, UserProfileForm, UserForm
 
 
@@ -111,8 +111,13 @@ def resultado_quiz(request):
             resposta = Resposta.objects.get(id=id_resposta)
             filmes_recomendados = filmes_recomendados | resposta.filmes.all()
         
-        filmes_recomendados = filmes_recomendados.distinct()
-        
+        filmes_recomendados = filmes_recomendados.distinct()# [:1]
+
+        for filme in filmes_recomendados:
+                    if not FilmeRecomendado.objects.filter(user=request.user, filme=filme).exists():
+                        FilmeRecomendado.objects.create(user=request.user, filme=filme)
+
+
         return render(request, 'website/resultado_quiz.html', {'filmes': filmes_recomendados})
     
 @login_required(login_url='login')
@@ -162,3 +167,8 @@ def profile(request, user_id):
     }
 
     return render(request, 'website/perfil.html', context)
+
+
+def filmes_recomendados(request):
+    filmes = FilmeRecomendado.objects.filter(user=request.user)
+    return render(request, 'website/filmes_recomendados.html', {'filmes': filmes})

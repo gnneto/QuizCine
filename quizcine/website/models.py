@@ -11,10 +11,7 @@ class Filme(models.Model):
     data_lancamento = models.DateField()
     descricao = models.TextField()
     imagem_url = models.URLField()
-    link_hbo = models.URLField(blank=True)
-    link_primevideo = models.URLField(blank=True)
-    link_appletv = models.URLField(blank=True)
-
+    links = models.JSONField(default=dict) # bom prkl
 
     def __str__(self):
         return f'{self.titulo} | {self.generos}'
@@ -56,3 +53,11 @@ class RespostaUsuario(models.Model):
 
     def __str__(self):
         return f'{self.user.username} | {self.pergunta.texto} | {self.resposta.texto}'
+    
+
+class FilmeRecomendado(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    filme = models.ForeignKey(Filme, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.user.username} | {self.filme.titulo}'
