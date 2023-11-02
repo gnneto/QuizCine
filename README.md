@@ -1,6 +1,6 @@
-# Quiz de Recomendação de Filmes
+# QuizCine
 
-O **Quiz de Recomendação de Filmes** é uma aplicação web baseada em Django que ajuda os usuários a descobrir filmes com base em seu estado de espírito. O projeto oferece as seguintes funcionalidades:
+O **QuizCine** é uma aplicação web baseada em Django que ajuda os usuários a descobrir filmes com base em seu estado de espírito. O projeto oferece as seguintes funcionalidades:
 
 - **Cadastro de Usuários:** Os usuários podem criar contas, fornecendo informações como nome, data de nascimento, gênero e outros detalhes.
 
