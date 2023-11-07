@@ -46,7 +46,7 @@ class UserProfile(models.Model):
         return self.user.username
     
 
-class RespostaUsuario(models.Model):
+class RespostaUsuario(models.Model): # API
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     pergunta = models.ForeignKey(Pergunta, on_delete=models.CASCADE)
     resposta = models.ForeignKey(Resposta, on_delete=models.CASCADE)
@@ -55,7 +55,7 @@ class RespostaUsuario(models.Model):
         return f'{self.user.username} | {self.pergunta.texto} | {self.resposta.texto}'
     
 
-class FilmeRecomendado(models.Model):
+class FilmeRecomendado(models.Model): # API
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     filme = models.ForeignKey(Filme, on_delete=models.CASCADE)
 

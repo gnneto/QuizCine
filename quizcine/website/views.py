@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib import messages
@@ -172,3 +173,12 @@ def profile(request, user_id):
 def filmes_recomendados(request):
     filmes = FilmeRecomendado.objects.filter(user=request.user)
     return render(request, 'website/filmes_recomendados.html', {'filmes': filmes})
+
+
+
+def filme_lista(request):
+    return render(request, 'website/catalogo.html')
+
+
+def is_authenticated_view(request):
+    return JsonResponse({'is_authenticated': request.user.is_authenticated})
