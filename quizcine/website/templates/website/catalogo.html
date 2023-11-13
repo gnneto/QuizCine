@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exemplo de API</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <!-- Botão para abrir o modal -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addFilmModal">
+      Adicionar Filme
+    </button>
+
+    <!-- Modal para adicionar filme -->
+    <div class="modal fade" id="addFilmModal" tabindex="-1" role="dialog" aria-labelledby="addFilmModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addFilmModalLabel">Adicionar Filme</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="addFilmForm">
+                        <label for="idFilmeAPI">ID do Filme API:</label><br>
+                        <input type="text" id="idFilmeAPI" name="idFilmeAPI"><br>
+                        <label for="titulo">Título:</label><br>
+                        <input type="text" id="titulo" name="titulo"><br>
+                        <label for="generos">Gêneros:</label><br>
+                        <input type="text" id="generos" name="generos"><br>
+                        <label for="avaliacao">Avaliação:</label><br>
+                        <input type="text" id="avaliacao" name="avaliacao"><br>
+                        <label for="diretor">Diretor:</label><br>
+                        <input type="text" id="diretor" name="diretor"><br>
+                        <label for="data_lancamento">Data de Lançamento:</label><br>
+                        <input type="text" id="data_lancamento" name="data_lancamento"><br>
+                        <label for="descricao">Descrição:</label><br>
+                        <input type="text" id="descricao" name="descricao"><br>
+                        <label for="imagem_url">URL da Imagem:</label><br>
+                        <input type="text" id="imagem_url" name="imagem_url"><br>
+                        <label for="links">Links:</label><br>
+                        <input type="text" id="links" name="links"><br>
+                        <input type="submit" value="Adicionar Filme">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2 class="my-4">Filmes</h2>
+        <div id="filmes"></div>
+    </div>
+
+
+    <!-- Modal para visualizar detalhes do filme -->
+    <div class="modal fade" id="filmeModal" tabindex="-1" role="dialog" aria-labelledby="filmeModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="filmeModalLabel">Título do Filme</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="filmeModalBody"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editFilmModal">Editar</button>
+                    <button type="button" class="btn btn-danger" id="deletarFilme">Deletar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal para editar filme -->
+    <div class="modal fade" id="editFilmModal" tabindex="-1" role="dialog" aria-labelledby="editFilmModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editFilmModalLabel">Editar Filme</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="editFilmForm">
+                        <label for="editIdFilmeAPI">ID do Filme API:</label><br>
+                        <input type="text" id="editIdFilmeAPI" name="idFilmeAPI"><br>
+                        <label for="editTitulo">Título:</label><br>
+                        <input type="text" id="editTitulo" name="titulo"><br>
+                        <label for="editGeneros">Gêneros:</label><br>
+                        <input type="text" id="editGeneros" name="generos"><br>
+                        <label for="editAvaliacao">Avaliação:</label><br>
+                        <input type="text" id="editAvaliacao" name="avaliacao"><br>
+                        <label for="editDiretor">Diretor:</label><br>
+                        <input type="text" id="editDiretor" name="diretor"><br>
+                        <label for="editDataLancamento">Data de Lançamento:</label><br>
+                        <input type="text" id="editDataLancamento" name="data_lancamento"><br>
+                        <label for="editDescricao">Descrição:</label><br>
+                        <input type="text" id="editDescricao" name="descricao"><br>
+                        <label for="editImagemUrl">URL da Imagem:</label><br>
+                        <input type="text" id="editImagemUrl" name="imagem_url"><br>
+                        <label for="editLinks">Links:</label><br>
+                        <input type="text" id="editLinks" name="links"><br>
+                        <input type="submit" value="Salvar Alterações">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    
+    <script>
+        $(document).ready(function(){
+            $.ajaxSetup({
+                beforeSend: function(xhr, settings) {
+                    if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+                        xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}")
+                    }
+                }
+            });
+            
+
+            $("#addFilmForm").submit(function(e){
+                e.preventDefault();
+                var idFilmeAPI = $("#idFilmeAPI").val();
+                var titulo = $("#titulo").val();
+                var generos = $("#generos").val();
+                var avaliacao = $("#avaliacao").val();
+                var diretor = $("#diretor").val();
+                var data_lancamento = $("#data_lancamento").val();
+                var descricao = $("#descricao").val();
+                var imagem_url = $("#imagem_url").val();
+                var links = $("#links").val();
+                $.ajax({
+                    url: 'http://127.0.0.1:8000/apifilme/',
+                    type: 'POST',
+                    data: JSON.stringify({
+                        idFilmeAPI: idFilmeAPI,
+                        titulo: titulo,
+                        generos: generos,
+                        avaliacao: avaliacao,
+                        diretor: diretor,
+                        data_lancamento: data_lancamento,
+                        descricao: descricao,
+                        imagem_url: imagem_url,
+                        links: links
+                    }),
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    success: function(result) {
+                        alert("Filme adicionado com sucesso!");
+                        location.reload();
+                    }
+                });
+            });
+            
+
+            $.get("http://127.0.0.1:8000/apifilme/", function(data, status){
+                data.forEach(function(filme, index){
+                    var filmeDiv = $("<div class='card my-2'></div>");
+                    filmeDiv.append("<h5 class='card-header' data-toggle='modal' data-target='#filmeModal' data-index='"+index+"'>"+filme.titulo+"</h5>");
+                    $("#filmes").append(filmeDiv);
+                });
+        
+                $('#filmeModal').on('show.bs.modal', function (event) {
+                    var button = $(event.relatedTarget);
+                    var index = button.data('index');
+                    var filme = data[index];
+                    var modal = $(this);
+                    modal.find('.modal-title').text(filme.titulo);
+                    var bodyHtml = "<p><strong>Gêneros:</strong> " + filme.generos + "</p>" +
+                                   "<p><strong>Avaliação:</strong> " + filme.avaliacao + "</p>" +
+                                   "<p><strong>Diretor:</strong> " + filme.diretor + "</p>" +
+                                   "<p><strong>Data de lançamento:</strong> " + filme.data_lancamento + "</p>" +
+                                   "<p><strong>Descrição:</strong> " + filme.descricao + "</p>";
+                    for (var plataforma in filme.links) {
+                        if (filme.links[plataforma]) {
+                            bodyHtml += "<button onclick=\"window.location.href='" + filme.links[plataforma] + "'\">" + plataforma + "</button>";
+                        }
+                    }
+                    modal.find('.modal-body').html(bodyHtml);
+                    $("#editarFilme").data('id', filme.id);
+                    $("#deletarFilme").data('id', filme.id);
+                });
+        
+                $.get('/is_authenticated/', function(data) {
+                    if (data.is_authenticated) {
+                        // usuario autenticado
+                        $("#editarFilme").show();
+                        $("#deletarFilme").show();
+                    } else {
+                        // usuario nao autenticado
+                        $("#editarFilme").hide();
+                        $("#deletarFilme").hide();
+                    }
+                });
+        
+                $("#deletarFilme").click(function(){
+                    var id = $(this).data('id');
+                    $.ajax({
+                        url: 'http://127.0.0.1:8000/apifilme/' + id + '/',
+                        type: 'DELETE',
+                        success: function(result) {
+                            location.reload();
+                        }
+                    });
+                });
+        
+                $("#editarFilme").click(function(){
+                    var id = $(this).data('id');
+                    var novoTitulo = prompt("Digite o novo título do filme:");
+                    if (novoTitulo != null) {
+                        $.ajax({
+                            url: 'http://127.0.0.1:8000/apifilme/' + id + '/',
+                            type: 'PUT',
+                            data: JSON.stringify({titulo: novoTitulo}),
+                            contentType: 'application/json; charset=utf-8',
+                            dataType: 'json',
+                            success: function(result) {
+                                location.reload();
+                            }
+                        });
+                    }
+                });
+                $("#editFilmForm").submit(function(e){
+                    e.preventDefault();
+                    var id = $("#editarFilme").data('id');
+                    var idFilmeAPI = $("#editIdFilmeAPI").val();
+                    var titulo = $("#editTitulo").val();
+                    var generos = $("#editGeneros").val();
+                    var avaliacao = $("#editAvaliacao").val();
+                    var diretor = $("#editDiretor").val();
+                    var data_lancamento = $("#editDataLancamento").val();
+                    var descricao = $("#editDescricao").val();
+                    var imagem_url = $("#editImagemUrl").val();
+                    var links = $("#editLinks").val();
+                    $.ajax({
+                        url: 'http://127.0.0.1:8000/apifilme/' + id + '/',
+                        type: 'PUT',
+                        data: JSON.stringify({
+                            idFilmeAPI: idFilmeAPI,
+                            titulo: titulo,
+                            generos: generos,
+                            avaliacao: avaliacao,
+                            diretor: diretor,
+                            data_lancamento: data_lancamento,
+                            descricao: descricao,
+                            imagem_url: imagem_url,
+                            links: links
+                        }),
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: 'json',
+                        success: function(result) {
+                            alert("Filme editado com sucesso!");
+                            location.reload();
+                        }
+                    });
+                });
+                
+            });
+
+        });
+    </script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
 from django.contrib.auth import views as auth_views
 from django.conf import settings
@@ -20,7 +20,8 @@ urlpatterns = [
     path('editar_perfil/', views.editar_perfil, name='editar_perfil'),
     path('perfil/<int:user_id>/', views.profile, name='profile'),
     path('filmes_recomendados/', views.filmes_recomendados, name='filmes_recomendados'),
-    
+    path('filme_lista/', views.filme_lista, name='filme_lista'),
+    path('is_authenticated/', views.is_authenticated_view, name='is_authenticated'),
 ]
 
 if settings.DEBUG:

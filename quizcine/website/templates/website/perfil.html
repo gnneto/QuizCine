@@ -10,45 +10,46 @@
         <div class="form">
             <div class="form-group">
                 <label>Nome</label>
-                <p>{{ user.first_name }}</p>
+                <p id="nome"></p>
             </div>
             <div class="form-group">
                 <label>Sobrenome</label>
-                <p>{{ user.last_name }}</p>
+                <p id="sobrenome"></p>
             </div>
 
             {% if user == request.user %}
                 <div class="form-group">
                     <label>Email</label>
-                    <p>{{ user.email }}</p>
+                    <p id="email"></p>
                 </div>
             
                 <div class="form-group">
                     <label>Celular</label>
-                    <p>{{ userprofile.cell }}</p>
+                    <p id="celular"></p>
                 </div>
             {% endif %}
 
             <div class="form-group">
                 <label>Data de nascimento</label>
-                <p>{{ userprofile.nascimento }}</p>
+                <p id="nascimento"></p>
             </div>
             
             <div class="form-group">
                 <label>Como nos conheceu</label>
-                <p>{{ userprofile.nosConheceu }}</p>
+                <p id="nosConheceu"></p>
             </div>
             <div class="form-group">
                 <label>Gênero</label>
-                <p>{{ userprofile.genero }}</p>
-            </div>
+                <p id="genero"></p>
+            </div> 
             <div class="form-group">
                 <label>Sobre mim</label>
-                <p>{{ userprofile.bioUsuario}}</p>
+                <p id="bioUsuario"></p>
             </div>
-            {% if userprofile.foto %}
-                <img src="{{ userprofile.foto.url }}" alt="Foto do perfil">
-            {% endif %}
+            <div class="form-group">
+                <label>Foto do perfil</label>
+                <img id="foto" alt="Foto do perfil">
+            </div>
         </div>
     </div>
 
@@ -60,4 +61,25 @@
 
 </div>
 
-        {% endblock %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    var userId = "{{ request.user.userprofile.id }}";
+    var apiUrl = "http://127.0.0.1:8000/apiPerfilUsuario/" + userId + "/";
+    $.get(apiUrl, function(data, status){
+        $("#nome").text(data.user.first_name);
+        $("#sobrenome").text(data.user.last_name);
+        $("#email").text(data.user.email);
+        $("#celular").text(data.cell);
+        $("#nascimento").text(data.nascimento);
+        $("#nosConheceu").text(data.nosConheceu);
+        $("#genero").text(data.genero);
+        $("#bioUsuario").text(data.bioUsuario);
+        if (data.foto) {
+            $("#foto").attr("src", data.foto.url);
+        }
+    });
+});
+</script>
+
+{% endblock %}
