@@ -10,6 +10,7 @@ from .forms import CustomLoginForm, UserProfileForm, UserForm
 
 
 
+
 def cadastro(request):
     if request.user.is_authenticated:
         return redirect('index')
