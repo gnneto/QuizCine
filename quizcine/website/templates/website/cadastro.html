@@ -1,13 +1,12 @@
-<!-- APAGAR -->
-
-
 {% extends 'base.html' %}
 {% block content %}
 {% load static %}
-  <div class="container mb-5">
+<link rel="stylesheet" href="{% static 'website/css/cadastro.css' %}">
+ <div class="container mb-5">
     <h1 class="mt-2">Cadastro</h1>
 
     {% if messages %}
+
       <ul class="messages">
         {% for message in messages %}
           <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>

@@ -1,12 +1,14 @@
 {% extends 'base.html' %}
 {% block content %}
-
+{% load static %}
+<link rel="stylesheet" href="{% static 'website/css/editar_perfil.css' %}">
 <div class="container mb-5">
     <h1 class="mt-2">Editar Perfil</h1>
 
-    <div class="perfil">
+    <div class= "perfil">
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
+            
 
             <div class="form-group mt-2">
                 <label for="{{ user_form.first_name.id_for_label }}">Nome:</label>
