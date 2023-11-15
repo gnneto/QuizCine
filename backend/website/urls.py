@@ -3,10 +3,11 @@ from . import views
 from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
+from .views import index
 
 
 urlpatterns = [
-    path('', views.index, name='index'),
+    path('', index, name='index'),
     path('cadastro/', views.cadastro, name='cadastro'),
     path('contato/', views.contato, name='contato'),
     path('criadores/', views.criadores, name='criadores'),

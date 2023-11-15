@@ -11,6 +11,8 @@ from .forms import CustomLoginForm, UserProfileForm, UserForm
 
 
 
+def index(request):
+    return render(request, 'website/index.html')
 
 def cadastro(request):
     if request.user.is_authenticated:
@@ -26,9 +28,6 @@ def contato(request):
 def criadores(request):
     return render(request, 'website/criadores.html')
 
-
-def index(request):
-    return render(request, 'website/index.html')
 
 def sobre(request):
     return render(request, 'website/sobre.html')
