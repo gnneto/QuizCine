@@ -144,7 +144,7 @@
                 var imagem_url = $("#imagem_url").val();
                 var links = $("#links").val();
                 $.ajax({
-                    url: 'http://127.0.0.1:8000/apifilme/',
+                    url: 'http://127.0.0.1:8000/api/filme/',
                     type: 'POST',
                     data: JSON.stringify({
                         idFilmeAPI: idFilmeAPI,
@@ -167,7 +167,7 @@
             });
             
 
-            $.get("http://127.0.0.1:8000/apifilme/", function(data, status){
+            $.get("http://127.0.0.1:8000/api/filme/", function(data, status){
                 data.forEach(function(filme, index){
                     var filmeDiv = $("<div class='card my-2'></div>");
                     filmeDiv.append("<h5 class='card-header' data-toggle='modal' data-target='#filmeModal' data-index='"+index+"'>"+filme.titulo+"</h5>");
@@ -210,7 +210,7 @@
                 $("#deletarFilme").click(function(){
                     var id = $(this).data('id');
                     $.ajax({
-                        url: 'http://127.0.0.1:8000/apifilme/' + id + '/',
+                        url: 'http://127.0.0.1:8000/api/filme/' + id + '/',
                         type: 'DELETE',
                         success: function(result) {
                             location.reload();
@@ -223,7 +223,7 @@
                     var novoTitulo = prompt("Digite o novo título do filme:");
                     if (novoTitulo != null) {
                         $.ajax({
-                            url: 'http://127.0.0.1:8000/apifilme/' + id + '/',
+                            url: 'http://127.0.0.1:8000/api/filme/' + id + '/',
                             type: 'PUT',
                             data: JSON.stringify({titulo: novoTitulo}),
                             contentType: 'application/json; charset=utf-8',
@@ -247,7 +247,7 @@
                     var imagem_url = $("#editImagemUrl").val();
                     var links = $("#editLinks").val();
                     $.ajax({
-                        url: 'http://127.0.0.1:8000/apifilme/' + id + '/',
+                        url: 'http://127.0.0.1:8000/api/filme/' + id + '/',
                         type: 'PUT',
                         data: JSON.stringify({
                             idFilmeAPI: idFilmeAPI,
