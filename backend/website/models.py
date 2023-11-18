@@ -30,7 +30,7 @@ class Resposta(models.Model):
     filmes = models.ManyToManyField(Filme)
 
     def __str__(self):
-        return self.texto
+        return f'{self.pergunta}  |  {self.texto}'
     
 
 class UserProfile(models.Model):
