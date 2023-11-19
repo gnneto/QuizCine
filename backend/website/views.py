@@ -10,7 +10,6 @@ from .models import Filme, Pergunta, Resposta, UserProfile, FilmeRecomendado
 from .forms import CustomLoginForm, UserProfileForm, UserForm
 
 
-
 def index(request):
     return render(request, 'website/index.html')
 
@@ -112,7 +111,7 @@ def resultado_quiz(request):
             resposta = Resposta.objects.get(id=id_resposta)
             filmes_recomendados = filmes_recomendados | resposta.filmes.all()
         
-        filmes_recomendados = filmes_recomendados.distinct()# [:1]
+        filmes_recomendados = filmes_recomendados.distinct()[:5]
 
         for filme in filmes_recomendados:
                     if not FilmeRecomendado.objects.filter(user=request.user, filme=filme).exists():
@@ -182,3 +181,14 @@ def filme_lista(request):
 
 def is_authenticated_view(request):
     return JsonResponse({'is_authenticated': request.user.is_authenticated})
+
+
+# login da conta teste
+def conta_teste(request):
+
+    if request.method == 'POST':
+        user = authenticate(username='joao@silva.com', password='joao@silva')
+        if user is not None:
+            login(request, user)
+        
+    return render(request, 'website/conta_teste.html')

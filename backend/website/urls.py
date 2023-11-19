@@ -14,7 +14,7 @@ schema_view = get_schema_view(
    openapi.Info(
       title="QuizCine API",
       default_version='v1',
-      description="Test description",
+      # description="",
     #   terms_of_service="https://www.google.com/policies/terms/",
       contact=openapi.Contact(email="quizcine@equipe.com"),
     #   license=openapi.License(name="BSD License"),
@@ -23,7 +23,6 @@ schema_view = get_schema_view(
    permission_classes=(permissions.AllowAny,),
    
 )
-
 urlpatterns = [
     # site geral
     path('', index, name='index'),
@@ -38,10 +37,11 @@ urlpatterns = [
     path('resultado_quiz/', views.resultado_quiz, name='resultado_quiz'),
     path('logout/', auth_views.LogoutView.as_view(next_page='index'), name='logout'),
     path('editar_perfil/', views.editar_perfil, name='editar_perfil'),
-    path('perfil/<int:user_id>/', views.profile, name='profile'),
+    path('perfil/id_<int:user_id>/', views.profile, name='profile'),
     path('filmes_recomendados/', views.filmes_recomendados, name='filmes_recomendados'),
     path('filme_lista/', views.filme_lista, name='filme_lista'),
     path('is_authenticated/', views.is_authenticated_view, name='is_authenticated'),
+    path("conta_teste/", views.conta_teste, name='conta_teste'),
 
     # url api
     path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),

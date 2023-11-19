@@ -1,12 +1,8 @@
+{% extends 'website/base.html' %}
+{% block title %}Resultado{% endblock %}
+{% block content %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-  <title>QuizCine</title>
-  <link rel="stylesheet" href="{% static 'css/resultado_quiz.css' %}">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-</head>
-<body>
+<link rel="stylesheet" href="{% static 'css/resultado_quiz.css' %}">
   <div class="container d-flex flex-wrap">
     {% for filme in filmes %}
       <div class="cartao m-2">
@@ -63,6 +59,4 @@
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
   <script src="{% static 'js/resultado_quiz.js' %}"></script>
-
-</body>
-</html>
+{% endblock %}

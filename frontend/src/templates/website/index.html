@@ -15,6 +15,9 @@
         {% else %}
             <a href="{% url 'cadastro' %}" class="btn btn-dark">Cadastro</a>
             <a href="{% url 'login' %}" class="btn btn-dark">Login</a>
+            <form method='post' action="{% url 'conta_teste' %}">
+                <button type='submit' class="btn btn-dark mt-3">Entrar com uma conta teste</button>
+            </form>
         {% endif %}
     </div>        
 </div>

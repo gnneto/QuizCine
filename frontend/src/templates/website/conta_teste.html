@@ -1,0 +1,36 @@
+{% extends 'website/base.html' %}
+{% block title %}CONTA TESTE{% endblock %}
+{% block content %}
+    <div class="container mt-5"> 
+        <h2>Usando a conta teste</h2>
+        <p>Você pode encontrar a documentação geral do projeto <a href="https://github.com/gnneto/QuizCine/blob/main/README.md" target="_blank">clicando aqui</a>.</p>
+    
+        <div class="alert alert-info">
+            <p>Para facilitar a exploração do site, uma conta de teste foi criada.</p>
+            <ul>
+                {% if user.is_authenticated %}
+                    <p>Você já esta logado</p>
+                {% else %}
+                    <form method="post" action="{% url 'conta_teste' %}">
+                        {% csrf_token %}
+                        <button class="btn btn-primary" type="submit">Entrar como usuário de teste</button>
+                    </form>
+                {% endif %}
+            </ul>
+        </div>
+    
+        <p>Esta conta de teste permite que você explore o site, navegue por perfis, faça o quiz, edite o perfil e experimente a usabilidade do site.</p>
+    
+        <div class="alert alert-warning">
+            <p>Aqui estão alguns perfis criados para sua exploração:</p>
+            <ul>
+                
+                <li><strong>Perfil 1:</strong><a href="http://127.0.0.1:8000/perfil/id_34/" target="_blank"> /perfil/id_34/</a></li>
+                <li><strong>Perfil 2:</strong><a href="http://127.0.0.1:8000/perfil/id_32/" target="_blank"> /perfil/id_32/</a></li>
+                <li><strong>Perfil 3:</strong><a href="http://127.0.0.1:8000/perfil/id_47/" target="_blank"> /perfil/id_47/</a></li>
+    
+            </ul>
+        </div>
+        <p>Voce pode explorar a pagina administrativa do site aqui: <a href="http://localhost:8000/admin/" target="_blank">/admin/</a></p>
+    </div>
+{% endblock %}
