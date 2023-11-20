@@ -9,7 +9,7 @@
             <p>Para facilitar a exploração do site, uma conta de teste foi criada.</p>
             <ul>
                 {% if user.is_authenticated %}
-                    <p>Você já esta logado</p>
+                    <p>Você já esta logado como: {{ user.first_name }} {{ user.last_name }}</p>
                 {% else %}
                     <form method="post" action="{% url 'conta_teste' %}">
                         {% csrf_token %}

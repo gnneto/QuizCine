@@ -71,7 +71,7 @@
                 <div class="modal-body" id="filmeModalBody"></div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editFilmModal">Editar</button>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editFilmModal" id="editarFilme">Editar</button>
                     <button type="button" class="btn btn-danger" id="deletarFilme">Deletar</button>
                 </div>
             </div>
@@ -218,53 +218,53 @@
                     });
                 });
         
-                $("#editarFilme").click(function(){
-                    var id = $(this).data('id');
-                    var novoTitulo = prompt("Digite o novo título do filme:");
-                    if (novoTitulo != null) {
-                        $.ajax({
-                            url: 'http://127.0.0.1:8000/api/filme/' + id + '/',
-                            type: 'PUT',
-                            data: JSON.stringify({titulo: novoTitulo}),
-                            contentType: 'application/json; charset=utf-8',
-                            dataType: 'json',
-                            success: function(result) {
-                                location.reload();
-                            }
-                        });
-                    }
-                });
-                $("#editFilmForm").submit(function(e){
-                    e.preventDefault();
-                    var id = $("#editarFilme").data('id');
-                    var idFilmeAPI = $("#editIdFilmeAPI").val();
-                    var titulo = $("#editTitulo").val();
-                    var generos = $("#editGeneros").val();
-                    var avaliacao = $("#editAvaliacao").val();
-                    var diretor = $("#editDiretor").val();
-                    var data_lancamento = $("#editDataLancamento").val();
-                    var descricao = $("#editDescricao").val();
-                    var imagem_url = $("#editImagemUrl").val();
-                    var links = $("#editLinks").val();
+            $("#editarFilme").click(function(){
+                var id = $(this).data('id');
+                var novoTitulo = prompt("Digite o novo título do filme:");
+                if (novoTitulo != null) {
                     $.ajax({
-                        url: 'http://127.0.0.1:8000/api/filme/' + id + '/',
-                        type: 'PUT',
-                        data: JSON.stringify({
-                            idFilmeAPI: idFilmeAPI,
-                            titulo: titulo,
-                            generos: generos,
-                            avaliacao: avaliacao,
-                            diretor: diretor,
-                            data_lancamento: data_lancamento,
-                            descricao: descricao,
-                            imagem_url: imagem_url,
-                            links: links
-                        }),
-                        contentType: 'application/json; charset=utf-8',
-                        dataType: 'json',
-                        success: function(result) {
-                            alert("Filme editado com sucesso!");
-                            location.reload();
+                    url: 'http://127.0.0.1:8000/api/filme/' + id + '/',
+                    type: 'PUT',
+                    data: JSON.stringify({titulo: novoTitulo}),
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    success: function(result) {
+                        location.reload();
+                    }
+                    });
+                }
+            });
+            $("#editFilmForm").submit(function(e){
+                e.preventDefault();
+                var id = $("#editarFilme").data('id');
+                var idFilmeAPI = $("#editIdFilmeAPI").val();
+                var titulo = $("#editTitulo").val();
+                var generos = $("#editGeneros").val();
+                var avaliacao = $("#editAvaliacao").val();
+                var diretor = $("#editDiretor").val();
+                var data_lancamento = $("#editDataLancamento").val();
+                var descricao = $("#editDescricao").val();
+                var imagem_url = $("#editImagemUrl").val();
+                var links = $("#editLinks").val();
+                $.ajax({
+                    url: 'http://127.0.0.1:8000/api/filme/' + id + '/',
+                    type: 'PUT',
+                    data: JSON.stringify({
+                        idFilmeAPI: idFilmeAPI,
+                        titulo: titulo,
+                        generos: generos,
+                        avaliacao: avaliacao,
+                        diretor: diretor,
+                        data_lancamento: data_lancamento,
+                        descricao: descricao,
+                        imagem_url: imagem_url,
+                        links: links
+                    }),
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    success: function(result) {
+                        alert("Filme editado com sucesso!");
+                        location.reload();
                         }
                     });
                 });
