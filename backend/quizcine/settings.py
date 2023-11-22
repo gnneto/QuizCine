@@ -59,6 +59,10 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'quizcine.urls'
 
+MEDIA_ROOT = os.path.join(BASE_DIR, '../frontend', 'media')
+MEDIA_URL = '/media/'
+
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
