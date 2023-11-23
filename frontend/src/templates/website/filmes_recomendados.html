@@ -1,11 +1,57 @@
+{% extends 'website/base.html' %}
+{% block title %}MEUS FILMES{% endblock title %}
+{% block content %}
 {% load static %}
+
+
+{% comment %} <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> {% endcomment %}
 <link rel="stylesheet" href="{% static 'css/filmes_recomendados.css' %}">
-<div class="container mb-5">
+
+
+<!-- lista dos filmes -->
+<div class="container mt-5">
     <h1 class="mt-2">Olá, {{ user.first_name }} aqui estão todos os filmes já recomendados.</h1>
     <ul>
     {% for recomendacao in filmes %}
-        <li>{{ recomendacao.filme.titulo }}</li>
-    {% endfor %}
-    </ul>
+    {% comment %} <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+        {{ recomendacao.filme.titulo }}
+    </button> {% endcomment %}
+    
+        <li data-toggle="modal" data-target="#myModal" class="listaModal">{{ recomendacao.filme.titulo }}</li>
+    
+    <!-- modal -->
+    <div class="modal" id="myModal">
+        <div class="modal-dialog">
+        <div class="modal-content">
 
+            <!-- titulo modal -->
+            <div class="modal-header">
+            <h4 class="modal-title">{{ recomendacao.filme.titulo }}</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- conteudo dentro -->
+            <div class="modal-body">
+                <p><strong>Diretor:</strong> {{ recomendacao.filme.diretor }}</p>
+                <p><strong>Ano de lançamento:</strong> {{ recomendacao.filme.data_lancamento }}</p>
+                <p><strong>Gênero:</strong> {{ recomendacao.filme.generos }}</p>
+                <p><strong>Descrição:</strong>  {{ recomendacao.filme.descricao }}</p>
+            </div>
+
+
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            </div>
+
+        </div>
+        </div>
+    </div>
+    {% endfor %}
+</ul>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+{% endblock %}
