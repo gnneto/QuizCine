@@ -1,5 +1,7 @@
 ## Como Começar
+Antes de prosseguir, é necessário executar o seguinte comando para garantir que as dependências estejam atualizadas: <br>`pip install --upgrade setuptools`
 
+Siga os passos abaixo para configurar e executar o projeto:
 1. Clone o repositório para sua máquina local. `git clone https://github.com/gnneto/QuizCine.git`
 2. Configure o ambiente virtual e instale as dependências utilizando `pip install -r requirements.txt`.
 3. Execute as migrações do banco de dados com `python manage.py migrate`.
