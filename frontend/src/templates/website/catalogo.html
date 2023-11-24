@@ -220,7 +220,6 @@
         
             $("#editarFilme").click(function(){
                 var id = $(this).data('id');
-                var novoTitulo = prompt("Digite o novo título do filme:");
                 if (novoTitulo != null) {
                     $.ajax({
                     url: 'http://127.0.0.1:8000/api/filme/' + id + '/',

@@ -1,7 +1,7 @@
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 
-from rest_framework import viewsets
+from rest_framework import viewsets, permissions
 from website.models import *
 from .serializers import *
 
@@ -9,7 +9,7 @@ class FilmeViewSet(viewsets.ModelViewSet):
     queryset = Filme.objects.all()
     serializer_class = FilmeSerializer
     authentication_classes = [SessionAuthentication, BasicAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, permissions.IsAdminUser]
 
 
 class RespostaViewSet(viewsets.ModelViewSet):
