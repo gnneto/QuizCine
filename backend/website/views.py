@@ -72,6 +72,10 @@ def cadastrar_usuario(request):
         genero = request.POST['genero']
 
         try:
+            if UserProfile.objects.filter(cell=cell).exists():
+                messages.error(request, 'O telefone já está em uso.')
+                return render(request, 'website/cadastro.html')
+
             usuario = User.objects.create_user(username=email, email=email, password=senha)
             usuario.first_name = nome
             usuario.last_name = sobrenome
@@ -111,7 +115,7 @@ def resultado_quiz(request):
             resposta = Resposta.objects.get(id=id_resposta)
             filmes_recomendados = filmes_recomendados | resposta.filmes.all()
         
-        filmes_recomendados = filmes_recomendados.distinct()[:5]
+        filmes_recomendados = filmes_recomendados.distinct()[:10]
 
         for filme in filmes_recomendados:
                     if not FilmeRecomendado.objects.filter(user=request.user, filme=filme).exists():
