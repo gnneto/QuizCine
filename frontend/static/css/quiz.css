@@ -1,0 +1,56 @@
+body {
+    font-family: 'Arial', sans-serif;
+}
+
+.container {
+    margin-top: 30px;
+}
+
+.card {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.card-header {
+    background-color: #007bff;
+    color: #fff;
+    border-bottom: 1px solid #ccc;
+    border-radius: 10px 10px 0 0;
+}
+
+.card-title {
+    margin-bottom: 0;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.form-check {
+    margin-bottom: 15px;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border: 1px solid #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border: 1px solid #0056b3;
+}
+
+#mensagemErro {
+    margin-top: 20px;
+}
+
+@media (max-width: 576px) {
+    .container {
+        margin-top: 10px;
+    }
+
+    .card-body {
+        padding: 10px;
+    }
+}
