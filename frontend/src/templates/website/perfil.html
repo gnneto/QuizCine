@@ -4,11 +4,23 @@
 
 <link rel="stylesheet" href="{% static 'css/perfil.css' %}"
 
+<style>
+    .profile-container {
+        text-align: center;
+    }
+
+    .profile-image {
+        width: 300px; /* Ajuste conforme necessário */
+        height: auto;
+        margin-top: 10px; /* Espaço acima da imagem */
+    }
+</style>
+
 
 <div class="container mb-5">
     <h1 class="mt-2">Perfil</h1>
 
-    <div>
+    
         {% if userprofile.foto %}
             <img src="{{ userprofile.foto.url }}" alt="Foto do perfil" style="width: 250px; height: 250px;">
         {% endif %}
