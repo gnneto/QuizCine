@@ -44,10 +44,11 @@ p {
 }
 
 .profile-picture img {
-    max-width: 50%;
-    height: 50%;
-    border-radius: 40%;
-    margin-top: 20px;
-    display: block; /* Center the image within its container */
+    .container img {
+        max-width:200px;
+        max-height:150px;
+        width: auto;
+        height: auto;
+    }
     
 }
