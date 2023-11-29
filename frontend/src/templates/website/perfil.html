@@ -53,44 +53,63 @@
     </div>
     
 
-            {% if user == request.user %}
-                <div class="form-group">
-                    <label>Email</label>
-                    <p>{{ user.email }}</p>
-                </div>
-            
-                <div class="form-group">
-                    <label>Celular</label>
-                    <p>{{ userprofile.cell }}</p>
-                </div>
-            {% endif %}
-
-            <div class="form-group">
-                <label>Data de nascimento</label>
-                <p>{{ userprofile.nascimento }}</p>
-            </div>
-            
-            <div class="form-group">
-                <label>Como nos conheceu</label>
-                <p>{{ userprofile.nosConheceu }}</p>
-            </div>
-            <div class="form-group">
-                <label>Gênero</label>
-                <p>{{ userprofile.genero }}</p>
-            </div>
-            <div class="form-group">
-                <label>Sobre mim</label>
-                <p>{{ userprofile.bioUsuario}}</p>
-            </div>
-            
-    </div>
-
+    <style>
+        .profile-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin-top: 50px; /* Ajuste conforme necessário */
+        }
+    
+        .form-group {
+            margin-bottom: 20px; /* Ajuste conforme necessário */
+        }
+    
+        .btn-group {
+            margin-top: 20px; /* Ajuste conforme necessário */
+        }
+    </style>
+    
+    <div class="profile-container">
         {% if user == request.user %}
-            <a href="{% url 'editar_perfil' %}" class="btn btn-dark">Editar Perfil</a>
-            <a href="{% url 'quiz' %}" class="btn btn-dark">QUIZ</a>
-            <a href="{% url 'filmes_recomendados' %}" class="btn btn-dark">Meus filmes</a>
+            <div class="form-group">
+                <label>Email</label>
+                <p>{{ user.email }}</p>
+            </div>
+    
+            <div class="form-group">
+                <label>Celular</label>
+                <p>{{ userprofile.cell }}</p>
+            </div>
         {% endif %}
-
-</div>
-
-{% endblock %}
+    
+        <div class="form-group">
+            <label>Data de nascimento</label>
+            <p>{{ userprofile.nascimento }}</p>
+        </div>
+    
+        <div class="form-group">
+            <label>Como nos conheceu</label>
+            <p>{{ userprofile.nosConheceu }}</p>
+        </div>
+    
+        <div class="form-group">
+            <label>Gênero</label>
+            <p>{{ userprofile.genero }}</p>
+        </div>
+    
+        <div class="form-group">
+            <label>Sobre mim</label>
+            <p>{{ userprofile.bioUsuario}}</p>
+        </div>
+    
+        <div class="btn-group">
+            {% if user == request.user %}
+                <a href="{% url 'editar_perfil' %}" class="btn btn-dark">Editar Perfil</a>
+                <a href="{% url 'quiz' %}" class="btn btn-dark">QUIZ</a>
+                <a href="{% url 'filmes_recomendados' %}" class="btn btn-dark">Meus filmes</a>
+            {% endif %}
+        </div>
+    </div>
+    
