@@ -46,5 +46,9 @@ p {
 .profile-picture img {
     max-width: 80%;
     height: auto;
-    border-radius: 6px;
+    border-radius: 40%;
+    margin-top: 20px;
+    display: block; /* Center the image within its container */
+    margin-left: auto;
+    margin-right: auto;
 }
