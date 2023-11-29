@@ -1,56 +1,112 @@
 {% extends 'website/base.html' %}
 {% load static %}
 {% block content %}
-<link rel="stylesheet" href="{% static 'website/css/perfilUsuario.css' %}">
 
-<div class="container mb-5">
-    <h1 class="mt-2">Perfil</h1>
+<link rel="stylesheet" href="{% static 'css/perfil.css' %}"
 
-    <div class="perfil">
-        <div class="form">
-            <div class="form-group">
-                <label>Nome</label>
-                <p>{{ user.first_name }}</p>
-            </div>
-            <div class="form-group">
-                <label>Sobrenome</label>
-                <p>{{ user.last_name }}</p>
-            </div>
+<div>
 
-            {% if user == request.user %}
-                <div class="form-group">
-                    <label>Email</label>
-                    <p>{{ user.email }}</p>
-                </div>
-            
-                <div class="form-group">
-                    <label>Celular</label>
-                    <p>{{ userprofile.cell }}</p>
-                </div>
-            {% endif %}
-
-            <div class="form-group">
-                <label>Data de nascimento</label>
-                <p>{{ userprofile.nascimento }}</p>
-            </div>
-            
-            <div class="form-group">
-                <label>Como nos conheceu</label>
-                <p>{{ userprofile.nosConheceu }}</p>
-            </div>
-            <div class="form-group">
-                <label>Gênero</label>
-                <p>{{ userprofile.genero }}</p>
-            </div>
-            <div class="form-group">
-                <label>Sobre mim</label>
-                <p>{{ userprofile.bioUsuario}}</p>
-            </div>
-            {% if userprofile.foto %}
+    <style>
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+    
+        .perfil {
+            display: flex;
+            align-items: center;
+            text-align: left;
+            margin-top: 20px; /* Ajuste conforme necessário */
+        }
+    
+        .perfil img {
+            width: 150px;
+            height: 150px;
+            margin-right: 20px; /* Ajuste conforme necessário */
+        }
+    
+        .form {
+            max-width: 250px; /* Ajuste conforme necessário */
+        }
+    </style>
+    
+    <div class="container mb-5">
+        <h1 class="mt-2">Perfil</h1>
+    
+        {% if userprofile.foto %}
+            <div class="perfil">
                 <img src="{{ userprofile.foto.url }}" alt="Foto do perfil">
-            {% endif %}
-        </div>
+                <div class="form">
+                    <div class="form-group">
+                        <label>Nome</label>
+                        <p>{{ user.first_name }}</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Sobrenome</label>
+                        <p>{{ user.last_name }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
     </div>
+    
+    <style>
+    .profile-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        text-align: left;
+        margin-top: 50px; /* Ajuste conforme necessário */
+    }
+
+    .form-group {
+        width: 45%; /* Ajuste conforme necessário */
+        margin-bottom: 20px; /* Ajuste conforme necessário */
+    }
+
+    @media (max-width: 768px) {
+        .form-group {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="profile-container">
+    {% if user == request.user %}
+        <div class="form-group">
+            <label>Email</label>
+            <p>{{ user.email }}</p>
+        </div>
+    
+        <div class="form-group">
+            <label>Celular</label>
+            <p>{{ userprofile.cell }}</p>
+        </div>
+    {% endif %}
+
+    <div class="form-group">
+        <label>Data de nascimento</label>
+        <p>{{ userprofile.nascimento }}</p>
+    </div>
+    
+    <div class="form-group">
+        <label>Como nos conheceu</label>
+        <p>{{ userprofile.nosConheceu }}</p>
+    </div>
+
+    <div class="form-group">
+        <label>Gênero</label>
+        <p>{{ userprofile.genero }}</p>
+    </div>
+
+    <div class="form-group">
+        <label>Sobre mim</label>
+        <p>{{ userprofile.bioUsuario }}</p>
+    </div>
+</div>
+
 
         {% if user == request.user %}
             <a href="{% url 'editar_perfil' %}" class="btn btn-dark">Editar Perfil</a>
@@ -61,3 +117,4 @@
 </div>
 
 {% endblock %}
+      
