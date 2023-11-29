@@ -3,20 +3,25 @@
 {% block content %}
 
 
-<link rel="stylesheet" type="text/css" href="{% static 'static/css/perfil.css' %}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Perfil</title>
+</head>
+<body>
 
+<div class="container">
+    <h1>Perfil</h1>
 
-<div class="container mb-5">
-    <h1 class="mt-2">Perfil</h1>
-
-    <div class="perfil">
-        <div class="form">
+    <div class="profile">
+        <div class="profile-info">
             <div class="form-group">
-                <label>Nome</label>
+                <label>Nome:</label>
                 <p>{{ user.first_name }}</p>
             </div>
             <div class="form-group">
-                <label>Sobrenome</label>
+                <label>Sobrenome:</label>
                 <p>{{ user.last_name }}</p>
             </div>
 
