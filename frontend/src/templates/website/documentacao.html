@@ -1,0 +1,322 @@
+{% load static %}
+<link rel="icon" href="{% static 'ico/favicon.ico' %}" type="image/x-icon">
+
+<link rel="stylesheet" href="{% static 'css/doc.css' %}">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+<title>Documentação</title>
+
+<body>
+    <div class="mt-4 mx-4 sumario"> 
+        <h1>Sumário</h1>
+        <ul>
+            <li><a href="#login_view">Função login_view</a></li>
+            <li><a href="#cadastrar_usuario">Função cadastrar_usuario</a></li>
+            <li><a href="#editar_perfil">Função editar_perfil</a></li>
+            <li><a href="#quiz">Função quiz</a></li>
+            <li><a href="#resultado_quiz">Função resultado_quiz</a></li>
+            <li><a href="#perfil">Função perfil</a></li>
+        </ul>
+    </div>
+
+    <section class="mt-4 mx-4 funcao_geral">
+        <h1>Documentação de Todas as Funções</h1>
+
+        <div id="login_view" class="funcao_doc login_view">
+            <h2>1. Função <code>login_view</code></h2>
+
+            <button class="btn btn-primary" onclick="showCode('exibir_login_view')">Exibir Login</button>
+
+            <div id="exibir_login_view" class="codigo_geral bg-light p-3">
+                <h3>Pedaço do Código</h3>
+                <pre><code>
+                    def login_view(request):
+                        if request.user.is_authenticated:
+                            return redirect('index')
+                        else:
+                            if request.method == 'POST':
+                                form = CustomLoginForm(request.POST)
+                                if form.is_valid():
+                                    email = form.cleaned_data['email']
+                                    password = form.cleaned_data['password']
+                                    user = authenticate(request, username=email, password=password)
+                                    if user is not None:
+                                        login(request, user)
+                                        return redirect('perfil')
+                                    else:
+                                        form.add_error(None, 'Credenciais inválidas. Tente novamente.')
+                            else:
+                                form = CustomLoginForm()
+                            return render(request, 'website/login.html', {'form': form})
+                </code></pre>
+            </div>
+            
+
+            <p>
+                A função <code>login_view</code> é responsável por gerenciar o processo de login de usuários.
+            </p>
+    
+            <h3>Parâmetros</h3>
+            <pre><code>request (HttpRequest): Objeto de requisição HTTP.</code></pre>
+    
+            <h3>Comportamento</h3>
+            <ul>
+                <li>Verifica se o usuário já está autenticado. Se sim, redireciona para a página inicial (<code>'index'</code>).</li>
+                <li>Se o método da requisição for POST, verifica e processa o formulário de login.</li>
+                <li>Se o formulário for válido, autentica o usuário e redireciona para a página de perfil (<code>'perfil'</code>).</li>
+                <li>Se as credenciais fornecidas forem inválidas, exibe um erro no formulário.</li>
+                <li>Se o método da requisição não for POST, exibe o formulário de login.</li>
+            </ul>
+    
+            <h3>Retorno</h3>
+            <p>
+                Se o usuário estiver autenticado, redireciona para <code>'index'</code>.<br>
+                Se o método da requisição for POST e o formulário for válido, redireciona para <code>'perfil'</code>.<br>
+                Caso contrário, renderiza a página de login (<code>'website/login.html'</code>) com o formulário.
+            </p>
+    
+            <h3>Templates Utilizados</h3>
+            <ul>
+                <li><code>'website/login.html'</code></li>
+            </ul>
+    
+            <h3>Contexto do Template</h3>
+            <pre><code>{'form': Formulário de login (CustomLoginForm)}</code></pre>
+        </div>
+        <hr>
+
+        <div class="funcao_doc cadastrar_usuario">
+            <h2>2. Função <code>cadastrar_usuario</code></h2>
+            <button class="btn btn-primary" onclick="showCode('exibir_cadastrar_usuario')">Exibir cadastro de usuario</button>
+            <div id="exibir_cadastrar_usuario" class="codigo_geral bg-light p-3">
+                <h3>cadastrar_usuario</h3>
+                <pre><code>
+                    def cadastrar_usuario(request):
+                    if request.method == 'POST':
+                        nome = request.POST['pNome']
+                        sobrenome = request.POST['sNome']
+                        email = request.POST['email'].lower()
+                        senha = request.POST['senha']
+                        nascimento = request.POST['nasc']
+                        cell = request.POST['cell']
+                        nosConheceu = request.POST.get('nosConheceu', '')
+                        genero = request.POST['genero']
+                
+                        try:
+                            if UserProfile.objects.filter(cell=cell).exists():
+                                messages.error(request, 'O telefone já está em uso.')
+                                return render(request, 'website/cadastro.html')
+                
+                            usuario = User.objects.create_user(username=email, email=email, password=senha)
+                            usuario.first_name = nome
+                            usuario.last_name = sobrenome
+                            usuario.save()
+                
+                            UserProfile.objects.create(
+                                user=usuario,
+                                nascimento=nascimento,
+                                cell=cell,
+                                nosConheceu=nosConheceu,
+                                genero=genero
+                            )
+                
+                            messages.success(request, 'Cadastro realizado.')
+                            return redirect('login')
+                        except IntegrityError as e:
+                            messages.error(request, 'Erro no cadastro. O email já está em uso.')
+                        except Exception as e:
+                            messages.error(request, 'Erro no cadastro: ' + str(e))
+                
+                    return render(request, 'website/cadastro.html')
+                </code></pre>
+        
+            <p>
+                A função <code>cadastrar_usuario</code> é responsável por cadastrar um novo usuário.
+            </p>
+        
+            <h3>Parâmetros</h3>
+            <pre><code>request (HttpRequest): Objeto de requisição HTTP.</code></pre>
+        
+            <h3>Comportamento</h3>
+            <ul>
+                <li>Se o método da requisição for POST, processa os dados do formulário de cadastro.</li>
+                <li>Verifica se o telefone já está em uso. Se sim, exibe uma mensagem de erro.</li>
+                <li>Cria um novo usuário no sistema com os dados fornecidos.</li>
+                <li>Cria um UserProfile associado ao novo usuário.</li>
+                <li>Exibe mensagem de sucesso e redireciona para a página de login.</li>
+                <li>Em caso de erro, exibe mensagens de erro específicas.</li>
+            </ul>
+        
+            <h3>Retorno</h3>
+            <p>
+                Se o método da requisição for POST, redireciona para a página de cadastro (<code>'website/cadastro.html'</code>) com mensagens de erro, se aplicável.<br>
+                Se o método da requisição não for POST, renderiza a página de cadastro (<code>'website/cadastro.html'</code>).
+            </p>
+        
+            <h3>Templates Utilizados</h3>
+            <ul>
+                <li><code>'website/cadastro.html'</code></li>
+            </ul>
+        
+            <h3>Contexto do Template</h3>
+            <pre><code>N/A</code></pre>
+        </div>
+    
+        <hr>
+    
+        <div class="funcao_doc editar_perfil">
+            <h2>3. Função <code>editar_perfil</code></h2>
+        
+            <p>
+                A função <code>editar_perfil</code> é responsável por permitir que um usuário edite seu perfil.
+            </p>
+        
+            <h3>Parâmetros</h3>
+            <pre><code>request (HttpRequest): Objeto de requisição HTTP.</code></pre>
+        
+            <h3>Comportamento</h3>
+            <ul>
+                <li>Se o método da requisição for POST, processa os dados do formulário de edição de perfil.</li>
+                <li>Valida os formulários de usuário (<code>UserForm</code>) e de perfil (<code>UserProfileForm</code>).</li>
+                <li>Se os formulários forem válidos, atualiza as informações do usuário e do perfil.</li>
+                <li>Em caso de sucesso, redireciona para a página de perfil (<code>'perfil'</code>).</li>
+            </ul>
+        
+            <h3>Retorno</h3>
+            <p>
+                Se o método da requisição for POST e os formulários forem válidos, redireciona para a página de perfil (<code>'perfil'</code>).<br>
+                Se o método da requisição não for POST, renderiza a página de edição de perfil (<code>'website/editar_perfil.html'</code>) com os formulários.
+            </p>
+        
+            <h3>Templates Utilizados</h3>
+            <ul>
+                <li><code>'website/editar_perfil.html'</code></li>
+            </ul>
+        
+            <h3>Contexto do Template</h3>
+            <pre><code>{'user_form': Formulário de usuário (UserForm), 'profile_form': Formulário de perfil (UserProfileForm)}</code></pre>
+        </div>
+    
+    
+        <hr>
+        <div class="funcao_doc quiz">
+            <h2>4. Função <code>quiz</code></h2>
+        
+            <p>
+                A função <code>quiz</code> é responsável por exibir o quiz de perguntas em uma aplicação Django.
+            </p>
+        
+            <h3>Requisitos</h3>
+            <pre><code>@login_required(login_url='login')</code></pre>
+        
+            <h3>Parâmetros</h3>
+            <pre><code>request (HttpRequest): Objeto de requisição HTTP.</code></pre>
+        
+            <h3>Comportamento</h3>
+            <ul>
+                <li>Requer que o usuário esteja autenticado. Caso contrário, redireciona para a página de login.</li>
+                <li>Obtém todas as perguntas do banco de dados.</li>
+                <li>Renderiza a página do quiz (<code>'website/quiz.html'</code>) com as perguntas.</li>
+            </ul>
+        
+            <h3>Retorno</h3>
+            <p>
+                Renderiza a página do quiz (<code>'website/quiz.html'</code>) com as perguntas.
+            </p>
+        
+            <h3>Templates Utilizados</h3>
+            <ul>
+                <li><code>'website/quiz.html'</code></li>
+            </ul>
+        
+            <h3>Contexto do Template</h3>
+            <pre><code>{'perguntas': Perguntas do Quiz}</code></pre>
+        </div>
+    
+        <hr>
+    
+        <div class="funcao_doc resultado_quiz">
+            <h2>5. Função <code>resultado_quiz</code></h2>
+        
+            <p>
+                A função <code>resultado_quiz</code> é responsável por processar as respostas do quiz e exibir os filmes recomendados em uma aplicação Django.
+            </p>
+        
+            <h3>Parâmetros</h3>
+            <pre><code>request (HttpRequest): Objeto de requisição HTTP.</code></pre>
+        
+            <h3>Comportamento</h3>
+            <ul>
+                <li>Se o método da requisição for POST, processa as respostas do quiz.</li>
+                <li>Obtém as respostas selecionadas pelo usuário.</li>
+                <li>Consulta os filmes recomendados com base nas respostas.</li>
+                <li>Armazena os filmes recomendados no banco de dados para o usuário.</li>
+                <li>Renderiza a página de resultado do quiz (<code>'website/resultado_quiz.html'</code>) com os filmes recomendados.</li>
+            </ul>
+        
+            <h3>Retorno</h3>
+            <p>
+                Renderiza a página de resultado do quiz (<code>'website/resultado_quiz.html'</code>) com os filmes recomendados.
+            </p>
+        
+            <h3>Templates Utilizados</h3>
+            <ul>
+                <li><code>'website/resultado_quiz.html'</code></li>
+            </ul>
+        
+            <h3>Contexto do Template</h3>
+            <pre><code>{'filmes': Filmes Recomendados}</code></pre>
+        </div>
+        <hr>
+        
+        <div id="perfil" class="funcao_doc perfil">
+            <h2>6. Função <code>perfil</code></h2>
+        
+            <p>
+                A função <code>perfil</code> é responsável por exibir o perfil.
+            </p>
+        
+            <h3>Requisitos</h3>
+            <pre><code>@login_required(login_url='login')</code></pre>
+        
+            <h3>Parâmetros</h3>
+            <pre><code>request (HttpRequest): Objeto de requisição HTTP.</code></pre>
+        
+            <h3>Comportamento</h3>
+            <ul>
+                <li>Requer que o usuário esteja autenticado. Caso contrário, redireciona para a página de login.</li>
+                <li>Obtém o usuário autenticado e o perfil associado a ele.</li>
+                <li>Renderiza a página de perfil (<code>'website/perfil.html'</code>) com as informações do usuário e do perfil.</li>
+            </ul>
+        
+            <h3>Retorno</h3>
+            <p>
+                Renderiza a página de perfil (<code>'website/perfil.html'</code>) com as informações do usuário e do perfil.
+            </p>
+        
+            <h3>Templates Utilizados</h3>
+            <ul>
+                <li><code>'website/perfil.html'</code></li>
+            </ul>
+        
+            <h3>Contexto do Template</h3>
+            <pre><code>{'user': Usuário autenticado, 'userprofile': Perfil do usuário (UserProfile)}</code></pre>
+        </div>
+        <hr>
+    </section>
+    
+    <script>
+        function showCode(elementId) {
+            var codeContainer = document.getElementById(elementId);
+            if (codeContainer.style.display === "none") {
+                codeContainer.style.display = "block";
+            } else {
+                codeContainer.style.display = "none";
+            }
+        }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -10,6 +10,10 @@ from .models import Filme, Pergunta, Resposta, UserProfile, FilmeRecomendado
 from .forms import CustomLoginForm, UserProfileForm, UserForm
 
 
+def documentacao(request):
+    return render(request, 'website/documentacao.html')
+
+
 def index(request):
     return render(request, 'website/index.html')
 
@@ -38,6 +42,7 @@ def perfil(request):
     return render(request, 'website/perfil.html', {'user': user, 'userprofile': userprofile})
 
 
+# autenticacao do usuario
 def login_view(request):
     if request.user.is_authenticated:
         return redirect('index')

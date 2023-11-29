@@ -42,6 +42,7 @@ urlpatterns = [
     path('filme_lista/', views.filme_lista, name='filme_lista'),
     path('is_authenticated/', views.is_authenticated_view, name='is_authenticated'),
     path("conta_teste/", views.conta_teste, name='conta_teste'),
+    path("documentacao/", views.documentacao, name='documentacao'),
 
     # url api
     path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
