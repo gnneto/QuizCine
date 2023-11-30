@@ -8,7 +8,7 @@
 
 <body>
     <div class="mt-4 mx-4 sumario"> 
-        <h1>Sumário</h1>
+        <h1>Views</h1>
         <ul>
             <li><a href="#login_view">Função login_view</a></li>
             <li><a href="#cadastrar_usuario">Função cadastrar_usuario</a></li>
@@ -17,21 +17,34 @@
             <li><a href="#resultado_quiz">Função resultado_quiz</a></li>
             <li><a href="#perfil">Função perfil</a></li>
         </ul>
+
+        <h1>Models</h1>
+        <ul>
+            <li><a href="#models_filmes">Models Filmes</a></li>
+            <li><a href="#models_perguntas">Models Perguntas</a></li>
+            <li><a href="#models_respostas">Models Respostas</a></li>
+            <li><a href="#models_user_profile">Models UserProfile</a></li>
+
+
+        </ul>
     </div>
 
-    <h1 class="mt-4 mx-4">Documentação de Todas as Funções</h1>
+    <h1 class="mt-4 mx-4">Documentação <code>/views.py</code></h1>
     <section class="mt-4 mx-4 funcao_geral">
 
         <div id="login_view" class="funcao_doc login_view">
             <h2>1. Função <code>login_view</code></h2>
 
+            <p class="mt-3">
+                A função <code>login_view</code> é responsável por gerenciar o processo de login de usuários.
+            </p>
+            
             <button class="btn btn-primary" onclick="showCode('exibir_login_view')">Exibir Login</button>
-
             <div id="exibir_login_view" class="codigo_geral bg-light p-3">
-                <h3>Pedaço do Código</h3>
+
                 <pre><code>
                     def login_view(request):
-                        if request.user.is_authenticated:
+                        if request.user.is_authenticated:\
                             return redirect('index')
                         else:
                             if request.method == 'POST':
@@ -52,16 +65,10 @@
             </div>
             
 
-            <p>
-                A função <code>login_view</code> é responsável por gerenciar o processo de login de usuários.
-            </p>
-    
-            <h3>Parâmetros</h3>
-            <pre><code>request (HttpRequest): Objeto de requisição HTTP.</code></pre>
-    
-            <h3>Comportamento</h3>
+
+
+            <h3 class="mt-3">Comportamento</h3>
             <ul>
-                <li>Verifica se o usuário já está autenticado. Se sim, redireciona para a página inicial (<code>'index'</code>).</li>
                 <li>Se o método da requisição for POST, verifica e processa o formulário de login.</li>
                 <li>Se o formulário for válido, autentica o usuário e redireciona para a página de perfil (<code>'perfil'</code>).</li>
                 <li>Se as credenciais fornecidas forem inválidas, exibe um erro no formulário.</li>
@@ -75,18 +82,14 @@
                 Caso contrário, renderiza a página de login (<code>'website/login.html'</code>) com o formulário.
             </p>
     
-            <h3>Templates Utilizados</h3>
-            <ul>
-                <li><code>'website/login.html'</code></li>
-            </ul>
-    
-            <h3>Contexto do Template</h3>
-            <pre><code>{'form': Formulário de login (CustomLoginForm)}</code></pre>
         </div>
         <hr>
 
-        <div class="funcao_doc cadastrar_usuario">
+        <div id="cadastrar_usuario" class="funcao_doc cadastrar_usuario mt-5">
             <h2>2. Função <code>cadastrar_usuario</code></h2>
+            <p>
+                A função <code>cadastrar_usuario</code> é responsável por cadastrar um novo usuário.
+            </p>
             <button class="btn btn-primary" onclick="showCode('exibir_cadastrar_usuario')">Exibir cadastro de usuario</button>
             <div id="exibir_cadastrar_usuario" class="codigo_geral bg-light p-3">
                 <h3>cadastrar_usuario</h3>
@@ -129,15 +132,10 @@
                 
                     return render(request, 'website/cadastro.html')
                 </code></pre>
+            </div>
+
         
-            <p>
-                A função <code>cadastrar_usuario</code> é responsável por cadastrar um novo usuário.
-            </p>
-        
-            <h3>Parâmetros</h3>
-            <pre><code>request (HttpRequest): Objeto de requisição HTTP.</code></pre>
-        
-            <h3>Comportamento</h3>
+            <h3 class="mt-3">Comportamento</h3>
             <ul>
                 <li>Se o método da requisição for POST, processa os dados do formulário de cadastro.</li>
                 <li>Verifica se o telefone já está em uso. Se sim, exibe uma mensagem de erro.</li>
@@ -152,31 +150,42 @@
                 Se o método da requisição for POST, redireciona para a página de cadastro (<code>'website/cadastro.html'</code>) com mensagens de erro, se aplicável.<br>
                 Se o método da requisição não for POST, renderiza a página de cadastro (<code>'website/cadastro.html'</code>).
             </p>
-        
-            <h3>Templates Utilizados</h3>
-            <ul>
-                <li><code>'website/cadastro.html'</code></li>
-            </ul>
-        
-            <h3>Contexto do Template</h3>
-            <pre><code>N/A</code></pre>
         </div>
     
         <hr>
     
-        <div class="funcao_doc editar_perfil">
+        <div id="editar_perfil" class="funcao_doc editar_perfil mt-5">
             <h2>3. Função <code>editar_perfil</code></h2>
-        
             <p>
                 A função <code>editar_perfil</code> é responsável por permitir que um usuário edite seu perfil.
             </p>
-        
-            <h3>Parâmetros</h3>
-            <pre><code>request (HttpRequest): Objeto de requisição HTTP.</code></pre>
-        
-            <h3>Comportamento</h3>
+
+            <button class="btn btn-primary" onclick="showCode('exibir_editar_perfil')">Exibir editar</button>
+            <div id="exibir_editar_perfil" class="codigo_geral bg-light p-3">
+                <pre><code>
+                    def editar_perfil(request):
+                    if request.method == 'POST':
+                        user_form = UserForm(request.POST, instance=request.user)
+                        profile_form = UserProfileForm(request.POST, request.FILES, instance=request.user.userprofile)
+                        if user_form.is_valid() and profile_form.is_valid():
+                            user = user_form.save(commit=False)
+                            if user_form.cleaned_data['password']:
+                                user.set_password(user_form.cleaned_data['password'])
+                            user.save()
+                            profile_form.save()
+                            return redirect('perfil')
+                    else:
+                        user_form = UserForm(instance=request.user)
+                        profile_form = UserProfileForm(instance=request.user.userprofile)
+                
+                    return render(request, 'website/editar_perfil.html', {'user_form': user_form, 'profile_form': profile_form})
+                </code></pre>
+            </div>
+
+
+            <h3 class="mt-3">Comportamento</h3>
             <ul>
-                <li>Se o método da requisição for POST, processa os dados do formulário de edição de perfil.</li>
+                <li>Para garantir que o usuário que está editando o perfil é o usuário atual, é utilizado <code>request.user</code>, que é uma referência ao usuário autenticado na sessão. Isso garante que apenas usuários autenticados possam acessar e editar seu próprio perfil.</li>
                 <li>Valida os formulários de usuário (<code>UserForm</code>) e de perfil (<code>UserProfileForm</code>).</li>
                 <li>Se os formulários forem válidos, atualiza as informações do usuário e do perfil.</li>
                 <li>Em caso de sucesso, redireciona para a página de perfil (<code>'perfil'</code>).</li>
@@ -187,32 +196,27 @@
                 Se o método da requisição for POST e os formulários forem válidos, redireciona para a página de perfil (<code>'perfil'</code>).<br>
                 Se o método da requisição não for POST, renderiza a página de edição de perfil (<code>'website/editar_perfil.html'</code>) com os formulários.
             </p>
-        
-            <h3>Templates Utilizados</h3>
-            <ul>
-                <li><code>'website/editar_perfil.html'</code></li>
-            </ul>
-        
-            <h3>Contexto do Template</h3>
-            <pre><code>{'user_form': Formulário de usuário (UserForm), 'profile_form': Formulário de perfil (UserProfileForm)}</code></pre>
         </div>
-    
-    
         <hr>
-        <div class="funcao_doc quiz">
+
+
+        <div id="quiz" class="funcao_doc quiz mt-5">
             <h2>4. Função <code>quiz</code></h2>
         
             <p>
-                A função <code>quiz</code> é responsável por exibir o quiz de perguntas em uma aplicação Django.
+                A função <code>quiz</code> é responsável por exibir o quiz de perguntas.
             </p>
+
+            <button class="btn btn-primary" onclick="showCode('exibir_quiz')">Exibir Quiz</button>
+            <div id="exibir_quiz" class="codigo_geral bg-light p-3">
+                <pre><code>
+                    def quiz(request):
+                        perguntas = Pergunta.objects.all()
+                        return render(request, 'website/quiz.html', {'perguntas': perguntas})
+                </code></pre>
+            </div>
         
-            <h3>Requisitos</h3>
-            <pre><code>@login_required(login_url='login')</code></pre>
-        
-            <h3>Parâmetros</h3>
-            <pre><code>request (HttpRequest): Objeto de requisição HTTP.</code></pre>
-        
-            <h3>Comportamento</h3>
+            <h3 class="mt-3">Comportamento</h3>
             <ul>
                 <li>Requer que o usuário esteja autenticado. Caso contrário, redireciona para a página de login.</li>
                 <li>Obtém todas as perguntas do banco de dados.</li>
@@ -223,33 +227,44 @@
             <p>
                 Renderiza a página do quiz (<code>'website/quiz.html'</code>) com as perguntas.
             </p>
-        
-            <h3>Templates Utilizados</h3>
-            <ul>
-                <li><code>'website/quiz.html'</code></li>
-            </ul>
-        
-            <h3>Contexto do Template</h3>
-            <pre><code>{'perguntas': Perguntas do Quiz}</code></pre>
         </div>
-    
         <hr>
     
-        <div class="funcao_doc resultado_quiz">
+        <div id="resultado_quiz" class="funcao_doc resultado_quiz mt-5">
             <h2>5. Função <code>resultado_quiz</code></h2>
         
             <p>
-                A função <code>resultado_quiz</code> é responsável por processar as respostas do quiz e exibir os filmes recomendados em uma aplicação Django.
+                A função <code>resultado_quiz</code> é responsável por processar as respostas do quiz e exibir os filmes recomendados.
             </p>
+
+            <button class="btn btn-primary" onclick="showCode('exibir_resultado_quiz')">Exibir resultado quiz</button>
+            <div id="exibir_resultado_quiz" class="codigo_geral bg-light p-3">
+                <pre><code>
+                    def resultado_quiz(request):
+                        if request.method == 'POST':
+                            respostas_selecionadas = list(request.POST.values())[1:]
+                            filmes_recomendados = Filme.objects.none()
+                            
+                            for id_resposta in respostas_selecionadas:
+                                resposta = Resposta.objects.get(id=id_resposta)
+                                filmes_recomendados = filmes_recomendados | resposta.filmes.all()
+                            
+                            filmes_recomendados = filmes_recomendados.distinct()[:10]
+                    
+                            for filme in filmes_recomendados:
+                                        if not FilmeRecomendado.objects.filter(user=request.user, filme=filme).exists():
+                                            FilmeRecomendado.objects.create(user=request.user, filme=filme)
+                    
+                    
+                            return render(request, 'website/resultado_quiz.html', {'filmes': filmes_recomendados})
+                </code></pre>
+            </div>
         
-            <h3>Parâmetros</h3>
-            <pre><code>request (HttpRequest): Objeto de requisição HTTP.</code></pre>
-        
-            <h3>Comportamento</h3>
+            <h3 class="mt-3">Comportamento</h3>
             <ul>
                 <li>Se o método da requisição for POST, processa as respostas do quiz.</li>
                 <li>Obtém as respostas selecionadas pelo usuário.</li>
-                <li>Consulta os filmes recomendados com base nas respostas.</li>
+                <li>Consulta os filmes recomendados com base nas respostas e verifica se o filme já existe para o usuário</li>
                 <li>Armazena os filmes recomendados no banco de dados para o usuário.</li>
                 <li>Renderiza a página de resultado do quiz (<code>'website/resultado_quiz.html'</code>) com os filmes recomendados.</li>
             </ul>
@@ -258,63 +273,173 @@
             <p>
                 Renderiza a página de resultado do quiz (<code>'website/resultado_quiz.html'</code>) com os filmes recomendados.
             </p>
-        
-            <h3>Templates Utilizados</h3>
-            <ul>
-                <li><code>'website/resultado_quiz.html'</code></li>
-            </ul>
-        
-            <h3>Contexto do Template</h3>
-            <pre><code>{'filmes': Filmes Recomendados}</code></pre>
         </div>
         <hr>
         
-        <div id="perfil" class="funcao_doc perfil">
+        <div id="perfil" class="funcao_doc perfil mt-5">
             <h2>6. Função <code>perfil</code></h2>
         
             <p>
                 A função <code>perfil</code> é responsável por exibir o perfil.
             </p>
+
+            <button class="btn btn-primary" onclick="showCode('exibir_perfil')">Exibir Perfil</button>
+            <div id="exibir_perfil" class="codigo_geral bg-light p-3">
+                <pre><code>
+                    def perfil(request):
+                        user = request.user
+                        userprofile = UserProfile.objects.get(user=user)
+                        return render(request, 'website/perfil.html', {'user': user, 'userprofile': userprofile})
+                </code></pre>
+            </div>
         
-            <h3>Requisitos</h3>
-            <pre><code>@login_required(login_url='login')</code></pre>
-        
-            <h3>Parâmetros</h3>
-            <pre><code>request (HttpRequest): Objeto de requisição HTTP.</code></pre>
-        
-            <h3>Comportamento</h3>
+
+            <h3 class="mt-3">Comportamento</h3>
             <ul>
                 <li>Requer que o usuário esteja autenticado. Caso contrário, redireciona para a página de login.</li>
                 <li>Obtém o usuário autenticado e o perfil associado a ele.</li>
                 <li>Renderiza a página de perfil (<code>'website/perfil.html'</code>) com as informações do usuário e do perfil.</li>
             </ul>
         
-            <h3>Retorno</h3>
+        </div>
+        <hr>
+
+        <h1 class="mt-5 mx-4">Documentação <code>/models.py</code></h1>
+
+        <div id="models_filmes" class="models_filmes mt-5">
+            <h2>1. Models <code>Filme</code></h2>
+
             <p>
-                Renderiza a página de perfil (<code>'website/perfil.html'</code>) com as informações do usuário e do perfil.
+              O modelo <code>Filme</code> define os atributos de um filme.
             </p>
-        
-            <h3>Templates Utilizados</h3>
+            <button class="btn btn-primary" onclick="showCode('exibir_models_filme')">Exibir models/Filme</button>
+            <div id="exibir_models_filme" class="codigo_geral bg-light p-3">
+                <pre><code>
+                    class Filme(models.Model):
+                        idFilmeAPI = models.IntegerField()
+                        titulo = models.CharField(max_length=200)
+                        generos = models.CharField(max_length=100)
+                        avaliacao = models.CharField(max_length=20)
+                        diretor = models.CharField(max_length=100)
+                        data_lancamento = models.DateField()
+                        descricao = models.TextField()
+                        imagem_url = models.URLField()
+                        links = models.JSONField(default=dict)
+                    
+                        def __str__(self):
+                            return f'{self.titulo} | {self.generos}'
+                </code></pre>
+            </div>
+            
+            <h3 class="mt-3">Atributos:</h3>
+            
             <ul>
-                <li><code>'website/perfil.html'</code></li>
+              <li><strong>titulo</strong> (CharField): Título do filme.</li>
+              <li><strong>generos</strong> (CharField): Gêneros do filme.</li>
+              <li><strong>avaliacao</strong> (CharField): Avaliação do filme.</li>
+              <li><strong>diretor</strong> (CharField): Diretor do filme.</li>
+              <li><strong>data_lancamento</strong> (DateField): Data de lançamento do filme.</li>
+              <li><strong>descricao</strong> (TextField): Descrição do filme.</li>
+              <li><strong>imagem_url</strong> (URLField): URL da imagem do filme.</li>
+              <li><strong>links</strong> (JSONField): Links relacionados ao filme (onde assistir).</li>
+
+              <li><strong>__str__()</strong>: Retorna uma representação do filme no formato "Título | Gêneros". (pagina admin)</li>
             </ul>
+        </div>
+        <hr>
+
+        <div id="models_perguntas" class="models_perguntas mt-5">
+            <h2>2. Models <code>Pergunta</code></h2>
+            <p>
+                O modelo <code>Pergunta</code> define os atributos das perguntas do quiz.
+            </p>
+            <button class="btn btn-primary" onclick="showCode('exibir_models_perguntas')">Exibir models/Perguntas</button>
+            <div id="exibir_models_perguntas" class="codigo_geral bg-light p-3">
+                <pre><code>
+                    class Pergunta(models.Model):
+                        texto = models.CharField(max_length=200)
+
+                        def __str__(self):
+                            return self.texto
+
+                </code></pre>
+            </div>
         
-            <h3>Contexto do Template</h3>
-            <pre><code>{'user': Usuário autenticado, 'userprofile': Perfil do usuário (UserProfile)}</code></pre>
+            <h3 class="mt-3">Atributos:</h3>
+        
+            <ul>
+            <li><strong>texto</strong> (CharField): Texto da pergunta.</li>
+            </ul>
+
+        </div>
+        <hr>
+
+
+        <div id="models_respostas" class="models_respostas mt-5">
+            <h2>3. Models <code>Respostas</code></h2>
+    
+            <p>
+            O modelo <code>Resposta</code> define os atributos das respostas do quiz.
+            </p>
+            <button class="btn btn-primary" onclick="showCode('exibir_models_respostas')">Exibir models/Respostas</button>
+            <div id="exibir_models_respostas" class="codigo_geral bg-light p-3">
+                <pre><code>
+                    class Resposta(models.Model):
+                        pergunta = models.ForeignKey(Pergunta, on_delete=models.CASCADE)
+                        texto = models.CharField(max_length=200)
+                        filmes = models.ManyToManyField(Filme)
+                    
+                        def __str__(self):
+                            return f'{self.pergunta}  |  {self.texto}'
+                </code></pre>
+            </div>
+
+            <h3 class="mt-3">Atributos:</h3>
+    
+            <ul>
+            <li><strong>pergunta</strong> (ForeignKey): Chave estrangeira para a pergunta associada à resposta.</li>
+            <li><strong>texto</strong> (CharField): Texto da resposta.</li>
+            <li><strong>filmes</strong> (ManyToManyField): Relacionamento muitos para muitos com o modelo Filme.</li>
+            </ul>
+        </div>
+        <hr>
+
+        <div id="models_user_profile" class="models_user_profile mt-5">
+            
+            <h2>4. Models <code>UserProfile</code></h2>
+
+            <button class="btn btn-primary" onclick="showCode('exibir_models_userprofile')">Exibir models/UserProfile</button>
+            <div id="exibir_models_userprofile" class="codigo_geral bg-light p-3">
+                <pre><code>
+                    class UserProfile(models.Model):
+                        user = models.OneToOneField(User, on_delete=models.CASCADE)
+                        nascimento = models.DateField()
+                        cell = models.CharField(max_length=20)
+                        nosConheceu = models.CharField(max_length=255)
+                        genero = models.CharField(max_length=255)
+                        foto = models.ImageField(upload_to='profile_pics', blank=True)
+                        bioUsuario = models.TextField(max_length=500, blank=True)
+                    
+                        def __str__(self):
+                            return self.user.username
+                </code></pre>
+            </div>
+            <h3 class="mt-3">Campos</h3>
+            <ul>
+                <li><strong>user</strong> (OneToOneField): Referência a um objeto de usuário (<code>User</code>).</li>
+                <li><strong>nascimento</strong> (DateField): Data de nascimento do usuário.</li>
+                <li><strong>cell</strong> (CharField): Número de telefone do usuário.</li>
+                <li><strong>nosConheceu</strong> (CharField): Descrição de como o usuário conheceu a aplicação.</li>
+                <li><strong>genero</strong> (CharField): Gênero do usuário.</li>
+                <li><strong>foto</strong> (ImageField): Foto de perfil do usuário (opcional).</li>
+                <li><strong>bioUsuario</strong> (TextField): Biografia do usuário (opcional).</li>
+            </ul>
         </div>
         <hr>
     </section>
     
-    <script>
-        function showCode(elementId) {
-            var codeContainer = document.getElementById(elementId);
-            if (codeContainer.style.display === "none") {
-                codeContainer.style.display = "block";
-            } else {
-                codeContainer.style.display = "none";
-            }
-        }
-    </script>
+    <script src="{% static 'js/doc.js' %}"></script>
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
